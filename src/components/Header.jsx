@@ -3,7 +3,7 @@ import Logo from "../assets/Logo.png"
 
 function Header() {
     return (
-        <Flex >
+        <Flex bgColor={'red'}>
 
             <Image w='200px' h='200px' src={Logo} />
 
