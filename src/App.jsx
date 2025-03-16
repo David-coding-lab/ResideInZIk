@@ -1,10 +1,11 @@
 import { Box, Button, Container, Text } from "@chakra-ui/react"
+import Header from "./components/Header"
 
 function App() {
 return(
   <Box>
 
-    
+    <Header />
 
   </Box>
 )
@@ -16,7 +17,7 @@ export default App
 
 
 
-// Components
+// Components used in this webApp
 
 // 1. Header: encompases the logo of the site
 
