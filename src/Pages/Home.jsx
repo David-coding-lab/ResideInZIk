@@ -14,11 +14,12 @@ function Home() {
   const [UserFilterOptions, setUserFilterOptions] = useState([])
   const [townToBeDisplayed,setTownToBeDisplayed] = useState('All')
   const [toggleFilter, setToggleFilter] = useState(false)
+  const [animateFilterOut, setAnimateFilterOut] = useState(false)
 
-  console.log(UserFilterOptions);
+  console.log(UserFilterOptions, animateFilterOut);
 
   return (
-    <AppContext value={{townToBeDisplayed, setTownToBeDisplayed, setToggleFilter, setUserFilterOptions, UserFilterOptions}}>
+    <AppContext value={{townToBeDisplayed, setTownToBeDisplayed, setToggleFilter, setUserFilterOptions, UserFilterOptions, toggleFilter, animateFilterOut, setAnimateFilterOut}}>
 
       {/* FilterComponent */}
       {toggleFilter && <Filter />}

@@ -13,6 +13,10 @@ function Filter() {
         from: { opacity: 0, transform: "translateY(1000px)" },
         to: { opacity: 1, transform: "translateY(0)" },
     });
+    const PushOut = keyframes({
+        from: { opacity: 1, transform: "translateY(0)" },
+        to: { opacity: 0, transform: "translateY(1000px)" },
+    });
 
     const [search,setSearch] = useState('Enter your Budget')
 
@@ -23,7 +27,7 @@ function Filter() {
     )
 
     // User budget
-    const {setUserFilterOptions} = useContext(AppContext)
+    const {setUserFilterOptions, animateFilterOut} = useContext(AppContext)
 
     return (
         <Flex
@@ -36,7 +40,10 @@ function Filter() {
             top="210px"
             flexDir={'column'}
             justify={'space-between'}
-            animation={`${PushIn} 0.5s cubic-bezier(0.25, 1, 0.5, 1)`} // Improved easing
+            animation={!animateFilterOut ?
+                `${PushIn} 0.5s cubic-bezier(0.25, 1, 0.5, 1)` :
+                `${PushOut} 0.4s cubic-bezier(0.25, 1, 0.5, 1)`
+            } // Improved easing
         >
             <Box>
                 <VStack

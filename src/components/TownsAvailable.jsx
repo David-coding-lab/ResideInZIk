@@ -61,7 +61,7 @@ const Towns = ({townAvailableName, isCurrent, setIsCurrent})=>{
     return(
         <Box
             minW="auto"
-            p="12px 24px" borderRadius="20px"
+            p="10px 24px" borderRadius="20px"
 
             onClick={()=>
                 {
