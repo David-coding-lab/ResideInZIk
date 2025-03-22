@@ -21,7 +21,7 @@ function SearchBar() {
                 <svg width="20" cursor='pointer' height="20" viewBox="0 0 17 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M7 12C10.0376 12 12.5 9.53757 12.5 6.5C12.5 3.46243 10.0376 1 7 1C3.96243 1 1.5 3.46243 1.5 6.5C1.5 9.53757 3.96243 12 7 12Z" stroke="#3D1287" strokeOpacity="0.6" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
                     <path d="M15.4999 15.0001L10.8333 10.6667" stroke="#3D1287" strokeOpacity="0.6" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
+            </svg>
 
                 {/* this will contain all filtered location text when you shuffle and apply */}
                 <Flex></Flex>

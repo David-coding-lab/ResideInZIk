@@ -17,7 +17,7 @@ function TownsAvailable() {
           gap={{ base: "15px", sm: "20px" }}
           p="10px"
           css={{
-            "&::-webkit-scrollbar": { height: "6px" },
+            "&::-webkit-scrollbar": { height: "3px" },
             "&::-webkit-scrollbar-thumb":
                 {   background: "rgba(61, 18, 135, 0.34)",
                     borderRadius: "3px"
