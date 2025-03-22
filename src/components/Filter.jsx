@@ -22,6 +22,9 @@ function Filter() {
         ['Spacious Room', 'Roommate Option', 'Balcony', 'Tap water',]
     )
 
+    // User budget
+    const {setUserFilterOptions} = useContext(AppContext)
+
     return (
         <Flex
             w="100%"
@@ -78,6 +81,10 @@ function Filter() {
                 cursor={'pointer'}
                 borderRadius={'15px'}
                 bgColor={primary}
+                onClick={()=>{
+                    setUserFilterOptions(prevOptions=> ([...prevOptions, search]))
+                    // Whenever you click on this button it should fetch data from the server similar to the userSearch option
+                }}
             >
                 Find
             </Button>

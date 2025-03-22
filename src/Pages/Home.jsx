@@ -12,12 +12,13 @@ const Filter = lazy(()=> import('@/components/Filter'))
 
 function Home() {
   const [UserFilterOptions, setUserFilterOptions] = useState([])
-    const [townToBeDisplayed,setTownToBeDisplayed] = useState('All')
-    const [toggleFilter, setToggleFilter] = useState(false)
+  const [townToBeDisplayed,setTownToBeDisplayed] = useState('All')
+  const [toggleFilter, setToggleFilter] = useState(false)
 
+  console.log(UserFilterOptions);
 
   return (
-    <AppContext value={{townToBeDisplayed, setTownToBeDisplayed,setToggleFilter, setUserFilterOptions}}>
+    <AppContext value={{townToBeDisplayed, setTownToBeDisplayed, setToggleFilter, setUserFilterOptions, UserFilterOptions}}>
 
       {/* FilterComponent */}
       {toggleFilter && <Filter />}
