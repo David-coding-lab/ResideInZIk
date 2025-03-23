@@ -48,19 +48,6 @@ function Filter() {
         }
     };
 
-    // ✅ Add and Remove Event Listener Correctly
-    useEffect(() => {
-        if (budgetInput.current) {
-            budgetInput.current.addEventListener("keypress", enterEventHandler);
-        }
-
-        return () => {
-            if (budgetInput.current) {
-                budgetInput.current.removeEventListener("keypress", enterEventHandler);
-            }
-        };
-    }, [search]); // ✅ Depend on `search` to trigger re-renders
-
     return (
         <Flex
             w="100%"
@@ -101,6 +88,7 @@ function Filter() {
                         placeholder={'Enter your Budget'}
                         fontFamily={body}
                         ref={budgetInput}
+                        onKeyDown={enterEventHandler}
                         onChange={(e)=> setSearch(e.target.value)}
                     />
                 </VStack>
