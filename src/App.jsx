@@ -1,17 +1,18 @@
-import { Box, Button, Container, Text} from "@chakra-ui/react"
-import { lazy } from "react"
-
 import Header from "./components/Header"
-import { Outlet } from "react-router"
 
-const TownsAvailable = lazy(()=> import("./components/TownsAvailable"))
+import { Box, Button, Container, Text,} from "@chakra-ui/react"
+import { Outlet } from "react-router"
+import { Toaster } from "./components/ui/toaster"
 
 function App() {
 return(
   <Box>
 
     <Header />
-    {/* Components will be rendered dynamically on user interaction */}
+
+    {/* ALerts user on the bottom of the screen */}
+    <Toaster />
+
     <Outlet />
 
   </Box>

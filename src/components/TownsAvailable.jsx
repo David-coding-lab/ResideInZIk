@@ -57,7 +57,7 @@ function TownsAvailable() {
 
 // the fetched data of towns available will be made and passed as an argument to this function
 const Towns = ({townAvailableName, isCurrent, setIsCurrent})=>{
-    const {setTownToBeDisplayed} = useContext(AppContext)
+    const {setTownToBeDisplayed, pushOutFilterComponent, setAnimateFilterOut, setToggleFilter} = useContext(AppContext)
     return(
         <Box
             minW="auto"
@@ -65,6 +65,7 @@ const Towns = ({townAvailableName, isCurrent, setIsCurrent})=>{
 
             onClick={()=>
                 {
+                    pushOutFilterComponent(setAnimateFilterOut, setToggleFilter)
                     setTownToBeDisplayed(townAvailableName)
                     setIsCurrent(townAvailableName)
                 }}

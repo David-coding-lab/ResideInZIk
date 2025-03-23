@@ -9,6 +9,8 @@ import './index.css'
 import './App.css'
 
 const Home = lazy(()=> import('./Pages/Home'))
+const SearchResult = lazy(()=> import('./Pages/SearchResult'))
+const LodgesDisplay = lazy(()=> import('./components/LodgesDisplay'))
 
 // Up-to-date Routing
 const Route = createBrowserRouter([
@@ -20,7 +22,17 @@ const Route = createBrowserRouter([
     children: [
       {
         path: '',
-        element: <Home />
+        element: <Home />,
+        children:[
+          {
+            path: '/lodgesDisplay',
+            element: <LodgesDisplay />
+          },
+          {
+            path: '/searchResult',
+            element: <SearchResult />
+          }
+        ]
       },
     ],
   }

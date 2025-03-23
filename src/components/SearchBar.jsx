@@ -6,7 +6,7 @@ import { useContext, useState } from "react"
 function SearchBar() {
     const [searchText, setSearchText] = useState('')
 
-    const {setToggleFilter, toggleFilter, setAnimateFilterOut} = useContext(AppContext)
+    const {setToggleFilter, toggleFilter, setAnimateFilterOut, pushOutFilterComponent} = useContext(AppContext)
     const {heading} = theme.fonts
 
     return(
@@ -34,9 +34,9 @@ function SearchBar() {
                     color={'rgba(61, 18, 135, 0.6)'}
                     value={searchText}
                     placeholder="Search Areas, Lodge Name, etc"
-                    onChange={(e)=> setSearchText(e.target.value)}
                     fontSize={'16px'}
                     fontFamily={heading}
+                    onChange={(e)=> setSearchText(e.target.value)}
                 />
             </HStack>
 
@@ -52,15 +52,11 @@ function SearchBar() {
 
             <Text
                 fontSize={'14px'}
+                fontWeight={'bold'}
                 color={'rgba(61, 18, 135, 0.6)'}
                 display={toggleFilter ? 'block' : 'none'}
                 onClick={()=>{
-                    setAnimateFilterOut(true)
-
-                    setTimeout(() => {
-                        setToggleFilter(false)
-                        setAnimateFilterOut(false)
-                    }, 401);
+                    pushOutFilterComponent(setAnimateFilterOut, setToggleFilter)
                 }}
             >
                 Cancel

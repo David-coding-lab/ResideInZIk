@@ -3,6 +3,7 @@ import theme from "@/theme/theme";
 import { Box, Button, Checkbox, Flex, HStack, Input, Text, VStack } from "@chakra-ui/react";
 import { keyframes } from "@emotion/react";
 import { useContext, useState } from "react";
+import { toaster } from "./ui/toaster";
 
 const {body,popup} = theme.fonts
 const {primary} = theme.colors.brand
@@ -18,7 +19,7 @@ function Filter() {
         to: { opacity: 0, transform: "translateY(1000px)" },
     });
 
-    const [search,setSearch] = useState('Enter your Budget')
+    const [search,setSearch] = useState('')
 
     // this are the lodge filter options.
     // it would be fetched from the backend
@@ -27,7 +28,7 @@ function Filter() {
     )
 
     // User budget
-    const {setUserFilterOptions, animateFilterOut} = useContext(AppContext)
+    const {setUserFilterOptions, animateFilterOut, setLoadingSpinner, UserFilterOptions} = useContext(AppContext)
 
     return (
         <Flex
@@ -36,7 +37,7 @@ function Filter() {
             paddingInline='20px'
             position="fixed"
             bgColor="#FBFBFB"
-            zIndex="99"
+            zIndex="1"
             top="210px"
             flexDir={'column'}
             justify={'space-between'}
@@ -66,7 +67,8 @@ function Filter() {
                         border={'none'}
                         outline={'none'}
                         bgColor={'#F3F3F3'}
-                        placeholder={search}
+                        placeholder={'Enter your Budget'}
+                        fontFamily={body}
                         onChange={(e)=> setSearch(e.target.value)}
                     />
                 </VStack>
@@ -89,7 +91,7 @@ function Filter() {
                 borderRadius={'15px'}
                 bgColor={primary}
                 onClick={()=>{
-                    setUserFilterOptions(prevOptions=> ([...prevOptions, search]))
+                    fetchSearchResult(setUserFilterOptions, setLoadingSpinner, UserFilterOptions, search)
                     // Whenever you click on this button it should fetch data from the server similar to the userSearch option
                 }}
             >
@@ -108,9 +110,11 @@ const FilterOptions = ({ optionArray }) => {
             colorPalette={'purple'}
             key={index}
             onChange={()=>{
-                setUserFilterOptions(prevOptions => ([
-                    ...prevOptions, option
-                ]))
+                setUserFilterOptions((prevOptions) =>
+                    prevOptions.includes(option)
+                        ? prevOptions.filter(item => item !== option)  // Remove if exists
+                        : [...prevOptions, option]  // Add if not exists
+                )
             }}
         >
             <Checkbox.HiddenInput />
@@ -120,3 +124,37 @@ const FilterOptions = ({ optionArray }) => {
     )))
 };
 export default Filter;
+
+
+// Other function used in this component
+
+// this function does
+// 1. checks if all the checkbox is filled or any input is ✅ '
+// 2. set loading to be true ✅
+// 3. fetch data based on the search the user provided and store it
+// 4. Navigate to the searchResult page
+function fetchSearchResult(setUserFilterOptions,setLoadingSpinner, UserFilterOptions, search){
+    setUserFilterOptions(prevOptions=> (
+        search != '' ? [...prevOptions, search] : [...prevOptions]
+    ))
+
+    // checks data
+    if(!search && UserFilterOptions.length <= 0){
+
+        toaster.create({
+            description: 'Fill in any input to proceed',
+            type: 'info',
+            duration: 1000
+        })
+        return
+    }
+
+    if(UserFilterOptions.length > 0 || search){
+        // starts loading
+        setLoadingSpinner(true)
+        console.log(UserFilterOptions);
+
+        // this is where i fetched data based on user input
+
+    }
+}

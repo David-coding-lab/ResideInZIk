@@ -15,7 +15,7 @@ function Header() {
             borderBottomLeftRadius='20px'
             pl={'18px'}
             h={{base: '64px', sm: '', md: '', lg: ''}}
-            zIndex={'99'}
+            zIndex={'100'}
         >
             <Image w={'153px'} src={Logo} />
         </Box>
