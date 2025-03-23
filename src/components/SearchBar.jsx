@@ -2,9 +2,13 @@ import { AppContext } from "@/AppContext"
 import theme from "@/theme/theme"
 import { Box, Flex, HStack, Input, Text } from "@chakra-ui/react"
 import { useContext, useState } from "react"
+import { useLocation, useNavigate } from "react-router"
 
 function SearchBar() {
     const [searchText, setSearchText] = useState('')
+
+    const location = useLocation()
+    const navigate = useNavigate()
 
     const {setToggleFilter, toggleFilter, setAnimateFilterOut, pushOutFilterComponent} = useContext(AppContext)
     const {heading} = theme.fonts
@@ -42,7 +46,7 @@ function SearchBar() {
 
             <svg
                 width="20" cursor='pointer'
-                visibility={toggleFilter ? 'hidden' : 'visible'}
+                visibility={toggleFilter || location.pathname === '/searchResult' ? 'hidden' : 'visible'}
                 height="20" viewBox="0 0 18 19"
                 fill="none" xmlns="http://www.w3.org/2000/svg"
                 onClick={()=> setToggleFilter(true)}
@@ -54,9 +58,11 @@ function SearchBar() {
                 fontSize={'14px'}
                 fontWeight={'bold'}
                 color={'rgba(61, 18, 135, 0.6)'}
-                display={toggleFilter ? 'block' : 'none'}
+                display={toggleFilter || location.pathname === '/searchResult' ? 'block' : 'none'}
                 onClick={()=>{
+                    toggleFilter ?
                     pushOutFilterComponent(setAnimateFilterOut, setToggleFilter)
+                    : navigate('/')
                 }}
             >
                 Cancel

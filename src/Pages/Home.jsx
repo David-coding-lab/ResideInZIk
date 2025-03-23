@@ -2,24 +2,16 @@ import '../App.css'
 
 import { AppContext } from '@/AppContext'
 import { Box } from '@chakra-ui/react'
-import { lazy, Suspense, useEffect, useState } from 'react'
+import { lazy, useState } from 'react'
 
 import TownsAvailable  from '@/components/TownsAvailable'
-import LodgesDisplay  from '@/components/LodgesDisplay'
 import SearchBar from '@/components/SearchBar'
-import { Outlet, useNavigate } from 'react-router'
+import { Outlet } from 'react-router'
 
 const Filter = lazy(()=> import('@/components/Filter'))
 const LoadingSpinner = lazy(()=> import('@/components/LoadingSpinner'))
 
 function Home() {
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    navigate("/lodgesDisplay"); // Navigates to the lodges display page
-  }, [navigate])
-
-
   const [townToBeDisplayed,setTownToBeDisplayed] = useState('All')
   const [animateFilterOut, setAnimateFilterOut] = useState(false)
   const [UserFilterOptions, setUserFilterOptions] = useState([])

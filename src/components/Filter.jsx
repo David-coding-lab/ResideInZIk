@@ -4,6 +4,7 @@ import { Box, Button, Checkbox, Flex, HStack, Input, Text, VStack } from "@chakr
 import { keyframes } from "@emotion/react";
 import { useContext, useState } from "react";
 import { toaster } from "./ui/toaster";
+import { useNavigate } from "react-router";
 
 const {body,popup} = theme.fonts
 const {primary} = theme.colors.brand
@@ -20,6 +21,9 @@ function Filter() {
     });
 
     const [search,setSearch] = useState('')
+
+    // Get navigate function
+    const navigate = useNavigate();
 
     // this are the lodge filter options.
     // it would be fetched from the backend
@@ -91,7 +95,7 @@ function Filter() {
                 borderRadius={'15px'}
                 bgColor={primary}
                 onClick={()=>{
-                    fetchSearchResult(setUserFilterOptions, setLoadingSpinner, UserFilterOptions, search)
+                    FetchSearchResult(setUserFilterOptions, setLoadingSpinner, UserFilterOptions, search, navigate)
                     // Whenever you click on this button it should fetch data from the server similar to the userSearch option
                 }}
             >
@@ -132,8 +136,7 @@ export default Filter;
 // 1. checks if all the checkbox is filled or any input is ✅ '
 // 2. set loading to be true ✅
 // 3. fetch data based on the search the user provided and store it
-// 4. Navigate to the searchResult page
-function fetchSearchResult(setUserFilterOptions,setLoadingSpinner, UserFilterOptions, search){
+function FetchSearchResult(setUserFilterOptions,setLoadingSpinner, UserFilterOptions, search, navigate){
     setUserFilterOptions(prevOptions=> (
         search != '' ? [...prevOptions, search] : [...prevOptions]
     ))
@@ -144,7 +147,7 @@ function fetchSearchResult(setUserFilterOptions,setLoadingSpinner, UserFilterOpt
         toaster.create({
             description: 'Fill in any input to proceed',
             type: 'info',
-            duration: 1000
+            duration: 1500
         })
         return
     }
@@ -152,9 +155,17 @@ function fetchSearchResult(setUserFilterOptions,setLoadingSpinner, UserFilterOpt
     if(UserFilterOptions.length > 0 || search){
         // starts loading
         setLoadingSpinner(true)
-        console.log(UserFilterOptions);
 
         // this is where i fetched data based on user input
+        // __--------------------------------------------___
+
+        // it then navigates to the SearchResult Page
+        setTimeout(() => {
+            setLoadingSpinner(false);  // Stop loading spinner
+            navigate("searchResult"); // Navigate to search results page
+        }, 1000);
+
+
 
     }
 }

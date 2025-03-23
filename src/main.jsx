@@ -25,11 +25,11 @@ const Route = createBrowserRouter([
         element: <Home />,
         children:[
           {
-            path: '/lodgesDisplay',
+            index: true,
             element: <LodgesDisplay />
           },
           {
-            path: '/searchResult',
+            path: 'searchResult',
             element: <SearchResult />
           }
         ]
