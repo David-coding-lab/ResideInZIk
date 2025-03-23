@@ -1,7 +1,7 @@
 import { AppContext } from "@/AppContext"
 import theme from "@/theme/theme"
-import { Box, Flex, HStack, Input, Text } from "@chakra-ui/react"
-import { useContext, useState } from "react"
+import { Box, Flex, For, HStack, Input, Tag, Text } from "@chakra-ui/react"
+import { useContext, useEffect, useState } from "react"
 import { useLocation, useNavigate } from "react-router"
 
 function SearchBar() {
@@ -10,29 +10,70 @@ function SearchBar() {
     const location = useLocation()
     const navigate = useNavigate()
 
-    const {setToggleFilter, toggleFilter, setAnimateFilterOut, pushOutFilterComponent} = useContext(AppContext)
+    const {setToggleFilter, toggleFilter, setAnimateFilterOut, pushOutFilterComponent, UserFilterOptions, setUserFilterOptions} = useContext(AppContext)
     const {heading} = theme.fonts
 
+    useEffect(() => {
+      if(UserFilterOptions.length === 0)
+        navigate('/')
+    }, [UserFilterOptions])
     return(
         <Flex
             bgColor={'#F5F4F8'} p={'10px 17px'}
             justify={'space-between'} align={'center'}
             w={'auto'} m='0 10px' borderRadius={'10px'}
+            h={'50px'}
         >
             <HStack gap='0'>
 
                 {/* Search icon. when clicked will submit searchText to the backend and the fetched data will be updated to the client side*/}
-                <svg width="20" cursor='pointer' height="20" viewBox="0 0 17 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M7 12C10.0376 12 12.5 9.53757 12.5 6.5C12.5 3.46243 10.0376 1 7 1C3.96243 1 1.5 3.46243 1.5 6.5C1.5 9.53757 3.96243 12 7 12Z" stroke="#3D1287" strokeOpacity="0.6" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
-                    <path d="M15.4999 15.0001L10.8333 10.6667" stroke="#3D1287" strokeOpacity="0.6" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
-            </svg>
+                {location.pathname !== '/searchResult' &&
+                    <svg width="20px" cursor='pointer' height="20px" viewBox="0 0 17 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M7 12C10.0376 12 12.5 9.53757 12.5 6.5C12.5 3.46243 10.0376 1 7 1C3.96243 1 1.5 3.46243 1.5 6.5C1.5 9.53757 3.96243 12 7 12Z" stroke="#3D1287" strokeOpacity="0.6" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
+                        <path d="M15.4999 15.0001L10.8333 10.6667" stroke="#3D1287" strokeOpacity="0.6" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
+                    </svg>
+                }
 
                 {/* this will contain all filtered location text when you shuffle and apply */}
-                <Flex></Flex>
+                <Flex
+                    display={location.pathname === '/searchResult' ? 'flex' : 'none'}
+                    w='70vw'
+                    h='50px'
+                    m='10px 5px'
+                    align={'center'}
+                >
+                    <For each={UserFilterOptions}>
+                        {(item, index) => (
+                            <Tag.Root
+                                key={index}
+                                ml={'5px'}
+                                h={'25px'}
+                                size={'sm'}
+                                color={'white'}
+                                bgColor={'#CBCBCB'}
+                                borderRadius={'8px'}
+                                paddingInline={'10px'}
+                            >
+                                <Tag.CloseTrigger
+                                    w='15px' cursor={'pointer'}
+                                    onClick={()=> setUserFilterOptions((prevOptions) =>{
+                                        UserFilterOptions.length === 1 && setTimeout(() => {
+                                            navigate('/')
+                                        }, 500);
+                                        return prevOptions.filter(currentItem => currentItem !== item)// Remove if exists // Add if not exists
+                                    })}
+                                />
+                                <Tag.Label>{item}</Tag.Label>
+                            </Tag.Root>
+                        )}
+                    </For>
+                </Flex>
 
                 {/* Input Field for search */}
                 <Input
                     type={"text"}
+                    display={location.pathname === '/searchResult' ? 'none' : 'block'}
+                    w={'auto'}
                     border={'none'}
                     outline={'none'}
                     color={'rgba(61, 18, 135, 0.6)'}
@@ -58,6 +99,7 @@ function SearchBar() {
                 fontSize={'14px'}
                 fontWeight={'bold'}
                 color={'rgba(61, 18, 135, 0.6)'}
+                cursor={'pointer'}
                 display={toggleFilter || location.pathname === '/searchResult' ? 'block' : 'none'}
                 onClick={()=>{
                     toggleFilter ?

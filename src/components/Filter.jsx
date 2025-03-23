@@ -32,7 +32,12 @@ function Filter() {
     )
 
     // User budget
-    const {setUserFilterOptions, animateFilterOut, setLoadingSpinner, UserFilterOptions} = useContext(AppContext)
+    const {
+        setUserFilterOptions,animateFilterOut,
+        setLoadingSpinner, UserFilterOptions,
+        pushOutFilterComponent, setAnimateFilterOut,
+        setToggleFilter
+    } = useContext(AppContext)
 
     return (
         <Flex
@@ -95,7 +100,7 @@ function Filter() {
                 borderRadius={'15px'}
                 bgColor={primary}
                 onClick={()=>{
-                    FetchSearchResult(setUserFilterOptions, setLoadingSpinner, UserFilterOptions, search, navigate)
+                    FetchSearchResult(setUserFilterOptions, setLoadingSpinner, UserFilterOptions, search, navigate, pushOutFilterComponent, setAnimateFilterOut, setToggleFilter)
                     // Whenever you click on this button it should fetch data from the server similar to the userSearch option
                 }}
             >
@@ -136,7 +141,7 @@ export default Filter;
 // 1. checks if all the checkbox is filled or any input is ✅ '
 // 2. set loading to be true ✅
 // 3. fetch data based on the search the user provided and store it
-function FetchSearchResult(setUserFilterOptions,setLoadingSpinner, UserFilterOptions, search, navigate){
+function FetchSearchResult(setUserFilterOptions,setLoadingSpinner, UserFilterOptions, search, navigate, pushOutFilterComponent, setAnimateFilterOut, setToggleFilter){
     setUserFilterOptions(prevOptions=> (
         search != '' ? [...prevOptions, search] : [...prevOptions]
     ))
@@ -162,6 +167,7 @@ function FetchSearchResult(setUserFilterOptions,setLoadingSpinner, UserFilterOpt
         // it then navigates to the SearchResult Page
         setTimeout(() => {
             setLoadingSpinner(false);  // Stop loading spinner
+            pushOutFilterComponent(setAnimateFilterOut, setToggleFilter)
             navigate("searchResult"); // Navigate to search results page
         }, 1000);
 

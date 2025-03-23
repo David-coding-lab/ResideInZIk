@@ -56,9 +56,8 @@ export default Home
 
 function pushOutFilterComponent(setAnimateFilterOut, setToggleFilter){
   setAnimateFilterOut(true)
-
   setTimeout(() => {
-      setToggleFilter(false)
-      setAnimateFilterOut(false)
+    setToggleFilter(false)
+    setAnimateFilterOut(false)
   }, 401);
 }
