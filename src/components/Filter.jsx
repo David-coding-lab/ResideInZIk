@@ -90,7 +90,6 @@ function Filter() {
                         ref={budgetInput}
                         onKeyDown={enterEventHandler}
                         onBlur={enterEventHandler}
-                        onSubmit={enterEventHandler}
                         onChange={(e)=> setSearch(e.target.value)}
                     />
                 </VStack>
