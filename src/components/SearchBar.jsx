@@ -10,13 +10,13 @@ function SearchBar() {
     const location = useLocation()
     const navigate = useNavigate()
 
-    const {setToggleFilter, toggleFilter, setAnimateFilterOut, pushOutFilterComponent, UserFilterOptions, setUserFilterOptions} = useContext(AppContext)
+    const {setToggleFilter, toggleFilter, setAnimateFilterOut, pushOutFilterComponent, userFilterOptions, setUserFilterOptions} = useContext(AppContext)
     const {heading} = theme.fonts
 
     useEffect(() => {
-      if(UserFilterOptions.length === 0)
+      if(userFilterOptions.length === 0)
         navigate('/')
-    }, [UserFilterOptions])
+    }, [userFilterOptions])
     return(
         <Flex
             bgColor={'#F5F4F8'} p={'10px 17px'}
@@ -37,30 +37,34 @@ function SearchBar() {
                 {/* this will contain all filtered location text when you shuffle and apply */}
                 <Flex
                     display={location.pathname === '/searchResult' ? 'flex' : 'none'}
-                    w='70vw'
+                    w='60vw'
                     h='50px'
                     m='10px 5px'
-                    align={'center'}
+                    align='center'
+                    overflowX='auto' // ✅ Enables horizontal scrolling
+                    whiteSpace='nowrap' // ✅ Prevents wrapping
                 >
-                    <For each={UserFilterOptions}>
+                    <For each={userFilterOptions}>
                         {(item, index) => (
                             <Tag.Root
                                 key={index}
-                                ml={'5px'}
-                                h={'25px'}
-                                size={'sm'}
-                                color={'white'}
-                                bgColor={'#CBCBCB'}
-                                borderRadius={'8px'}
-                                paddingInline={'10px'}
+                                ml='5px'
+                                h='25px'
+                                size='sm'
+                                color='white'
+                                bgColor='#CBCBCB'
+                                borderRadius='8px'
+                                paddingInline='10px'
+                                flexShrink={0} // ✅ Prevents items from shrinking
                             >
                                 <Tag.CloseTrigger
-                                    w='15px' cursor={'pointer'}
-                                    onClick={()=> setUserFilterOptions((prevOptions) =>{
-                                        UserFilterOptions.length === 1 && setTimeout(() => {
+                                    w='15px'
+                                    cursor='pointer'
+                                    onClick={() => setUserFilterOptions((prevOptions) => {
+                                        userFilterOptions.length === 1 && setTimeout(() => {
                                             navigate('/')
                                         }, 500);
-                                        return prevOptions.filter(currentItem => currentItem !== item)// Remove if exists // Add if not exists
+                                        return prevOptions.filter(currentItem => currentItem !== item);
                                     })}
                                 />
                                 <Tag.Label>{item}</Tag.Label>
@@ -68,6 +72,7 @@ function SearchBar() {
                         )}
                     </For>
                 </Flex>
+
 
                 {/* Input Field for search */}
                 <Input
@@ -101,11 +106,7 @@ function SearchBar() {
                 color={'rgba(61, 18, 135, 0.6)'}
                 cursor={'pointer'}
                 display={toggleFilter || location.pathname === '/searchResult' ? 'block' : 'none'}
-                onClick={()=>{
-                    toggleFilter ?
-                    pushOutFilterComponent(setAnimateFilterOut, setToggleFilter)
-                    : navigate('/')
-                }}
+                onClick={()=>{pushOutFilterComponent(setAnimateFilterOut, setToggleFilter, setUserFilterOptions,location,navigate)}}
             >
                 Cancel
             </Text>

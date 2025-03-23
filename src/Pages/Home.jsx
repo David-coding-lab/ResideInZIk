@@ -14,7 +14,7 @@ const LoadingSpinner = lazy(()=> import('@/components/LoadingSpinner'))
 function Home() {
   const [townToBeDisplayed,setTownToBeDisplayed] = useState('All')
   const [animateFilterOut, setAnimateFilterOut] = useState(false)
-  const [UserFilterOptions, setUserFilterOptions] = useState([])
+  const [userFilterOptions, setUserFilterOptions] = useState([])
   const [loadingSpinner, setLoadingSpinner] = useState(false)
   const [toggleFilter, setToggleFilter] = useState(false)
 
@@ -24,7 +24,7 @@ function Home() {
       setTownToBeDisplayed, setToggleFilter,
       setAnimateFilterOut,setLoadingSpinner,
 
-      townToBeDisplayed, UserFilterOptions,
+      townToBeDisplayed, userFilterOptions,
       toggleFilter, animateFilterOut,
     }}>
 
@@ -54,10 +54,15 @@ export default Home
 
 // Other functions and component to be shared across
 
-function pushOutFilterComponent(setAnimateFilterOut, setToggleFilter){
+function pushOutFilterComponent(setAnimateFilterOut, setToggleFilter,setUserFilterOptions,location,navigate){
   setAnimateFilterOut(true)
+
+  setUserFilterOptions && setUserFilterOptions([])
+
   setTimeout(() => {
     setToggleFilter(false)
     setAnimateFilterOut(false)
+
+    location && location.pathname !== '/' && navigate('/')
   }, 401);
 }

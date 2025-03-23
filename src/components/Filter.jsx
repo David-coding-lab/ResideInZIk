@@ -2,7 +2,7 @@ import { AppContext } from "@/AppContext";
 import theme from "@/theme/theme";
 import { Box, Button, Checkbox, Flex, HStack, Input, Text, VStack } from "@chakra-ui/react";
 import { keyframes } from "@emotion/react";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { toaster } from "./ui/toaster";
 import { useNavigate } from "react-router";
 
@@ -10,6 +10,8 @@ const {body,popup} = theme.fonts
 const {primary} = theme.colors.brand
 
 function Filter() {
+    const budgetInput = useRef(null)
+
     // animation for the push in of the component
     const PushIn = keyframes({
         from: { opacity: 0, transform: "translateY(1000px)" },
@@ -34,10 +36,30 @@ function Filter() {
     // User budget
     const {
         setUserFilterOptions,animateFilterOut,
-        setLoadingSpinner, UserFilterOptions,
+        setLoadingSpinner, userFilterOptions,
         pushOutFilterComponent, setAnimateFilterOut,
         setToggleFilter
     } = useContext(AppContext)
+
+    // listens for enter events and calls the fetchSearchResult function
+    const enterEventHandler = (e) => {
+        if (e.key === "Enter") {
+            FetchSearchResult(setUserFilterOptions, setLoadingSpinner, userFilterOptions, search, navigate, pushOutFilterComponent, setAnimateFilterOut, setToggleFilter);
+        }
+    };
+
+    // ✅ Add and Remove Event Listener Correctly
+    useEffect(() => {
+        if (budgetInput.current) {
+            budgetInput.current.addEventListener("keypress", enterEventHandler);
+        }
+
+        return () => {
+            if (budgetInput.current) {
+                budgetInput.current.removeEventListener("keypress", enterEventHandler);
+            }
+        };
+    }, [search]); // ✅ Depend on `search` to trigger re-renders
 
     return (
         <Flex
@@ -78,6 +100,7 @@ function Filter() {
                         bgColor={'#F3F3F3'}
                         placeholder={'Enter your Budget'}
                         fontFamily={body}
+                        ref={budgetInput}
                         onChange={(e)=> setSearch(e.target.value)}
                     />
                 </VStack>
@@ -100,7 +123,7 @@ function Filter() {
                 borderRadius={'15px'}
                 bgColor={primary}
                 onClick={()=>{
-                    FetchSearchResult(setUserFilterOptions, setLoadingSpinner, UserFilterOptions, search, navigate, pushOutFilterComponent, setAnimateFilterOut, setToggleFilter)
+                    FetchSearchResult(setUserFilterOptions, setLoadingSpinner, userFilterOptions, search, navigate, pushOutFilterComponent, setAnimateFilterOut, setToggleFilter)
                     // Whenever you click on this button it should fetch data from the server similar to the userSearch option
                 }}
             >
@@ -141,23 +164,30 @@ export default Filter;
 // 1. checks if all the checkbox is filled or any input is ✅ '
 // 2. set loading to be true ✅
 // 3. fetch data based on the search the user provided and store it
-function FetchSearchResult(setUserFilterOptions,setLoadingSpinner, UserFilterOptions, search, navigate, pushOutFilterComponent, setAnimateFilterOut, setToggleFilter){
+function FetchSearchResult(setUserFilterOptions,setLoadingSpinner, userFilterOptions, search, navigate, pushOutFilterComponent, setAnimateFilterOut, setToggleFilter){
     setUserFilterOptions(prevOptions=> (
         search != '' ? [...prevOptions, search] : [...prevOptions]
     ))
 
     // checks data
-    if(!search && UserFilterOptions.length <= 0){
-
-        toaster.create({
-            description: 'Fill in any input to proceed',
-            type: 'info',
-            duration: 1500
-        })
-        return
+    if(!search && userFilterOptions.length <= 0){
+        !search.includes('e') ?
+            toaster.create({
+                description: 'Check your budget input and try again',
+                type: 'info',
+                duration: 1500,
+                max: 1
+            })
+        :
+            toaster.create({
+                description: 'Fill in any input to proceed',
+                type: 'info',
+                duration: 1500,
+                max: 1
+            })
     }
 
-    if(UserFilterOptions.length > 0 || search){
+    if(userFilterOptions.length > 0 || search){
         // starts loading
         setLoadingSpinner(true)
 
