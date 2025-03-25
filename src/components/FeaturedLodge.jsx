@@ -1,13 +1,19 @@
 import { AppContext } from "@/AppContext";
-import { Box, Card, Center, Flex, For, Spinner, Text } from "@chakra-ui/react";
+import { Box, Card, Center, Flex, For, HStack, IconButton, Image, Spinner, Text } from "@chakra-ui/react";
 import { keyframes } from "@emotion/react";
 import { useContext, useEffect, useRef, useState } from "react";
+
 import Badges from "./Badges";
 import theme from "@/theme/theme";
+
+import playButton from "../assets/Playbtn.svg";
+import lightIcon from "../assets/lighticon.svg";
+import stairCaseIcon from "../assets/stairscaseicon.svg";
 
 function FeaturedLodge() {
     const {isLoggedIn} = useContext(AppContext)
     const {primary} = theme.colors.brand
+    const {body} = theme.fonts
 
     const [featuredLodgesList, setFeaturedLodgesList] = useState([]);
     // const [hasMore, setHasMore] = useState(true);
@@ -57,11 +63,12 @@ function FeaturedLodge() {
         } catch (error) {
             console.error("Error fetching data:", error);
         } finally {
-            setLoading(false);
+                setLoading(false);
         }
     };
 
     // Fetch data when page changes
+    // this fetch is not efficient because of it's fetching from local server
     useEffect(() => {
         if (loading || featuredLodgesList.length >= LodgesDisplayLimit) return; // ✅ Stop fetching if no more data or already loading
 
@@ -79,7 +86,7 @@ function FeaturedLodge() {
                 console.log("Last item in view. Fetching next page...");
                 setPage(prevPage => prevPage + 1) // ✅ Small delay to prevent race conditions
             }
-        }, { threshold: 1,rootMargin: '1000px'});
+        }, { threshold: 1,rootMargin: '0px'});
 
         if (lastLodgeRef.current) observer.current.observe(lastLodgeRef.current);
 
@@ -94,19 +101,21 @@ function FeaturedLodge() {
             align='center'
             overflowX='auto' // ✅ Enables horizontal scrolling
             whiteSpace='nowrap' // ✅ Prevents wrapping
-            scrollBehavior={'auto'}
+            scrollBehavior={'smooth'}
         >
             <For each={featuredLodgesList}>
                 {(item, index) => (
                     // each video mapped and displayed dynamically
                     <Box
                         key={index}
-                        h={'370px'}
-                        minW={'245px'}
+                        h={'400px'}
+                        minW={'260px'}
                         border={'none'}
                         ml='10px'
                         mt='10px'
                         borderRadius={'15px'}
+                        scrollSnapAlign={'center'}
+                        scrollBehavior={'smooth'}
                         overflow='hidden'
                         position={'relative'}
                         animation={videoLoading ? `${blink} 2s infinite alternate` : "none"}
@@ -131,7 +140,79 @@ function FeaturedLodge() {
                             h="100%"
                             bg="linear-gradient(to top, rgba(0, 0, 0, 0.6) 10%, rgba(0, 0, 0, 0) 80%)"
                         >
+                            {/* badge eg verified and premium */}
                             <Badges badgeTag={item.badge} />
+
+                            <Flex
+                                h='100%'
+                                flexDir='column'
+                                justify='space-between'
+                            >
+                                <IconButton
+                                    bgColor='transparent'
+                                    alignSelf='center'
+                                    mt='65%'
+                                >
+                                    <Image w='60px' src={playButton}/>
+                                </IconButton>
+
+                                <Flex
+                                    mb='15px'
+                                    ml='15px'
+                                    flexDir='column'
+                                    gap='5px'
+                                >
+
+                                    {/* lodge price */}
+                                    <Flex
+                                        w='125px'
+                                        h='40px'
+                                        borderRadius='16px'
+                                        bgColor='rgba(72, 146, 38, 0.6)'
+                                        align='center'
+                                        justify='center'
+                                    >
+                                        <Text
+                                            color='white'
+                                            fontFamily={body}
+                                            fontWeight='semibold'
+                                        >
+                                            ₦{item.price} - {item.subsequentPrice}
+                                        </Text>
+                                    </Flex>
+
+                                    <Text
+                                        fontFamily={body}
+                                        fontWeight={'semibold'}
+                                        fontSize='18px'
+                                        color='white'
+                                    >
+                                        {item.name}
+                                    </Text>
+
+                                    <Flex gap='6px'>
+                                        <HStack
+                                            color='#53587A'
+                                            fontFamily={body}
+                                            fontWeight={'semibold'}
+                                            fontSize='15px'
+                                        >
+                                            <Image w='20px' src={stairCaseIcon}/>
+                                            {item.floor}
+                                        </HStack>
+
+                                        <HStack
+                                            color='#53587A' fontFamily={body}
+                                            fontWeight={'semibold'}
+                                            fontSize='15px'
+                                        >
+                                            <Image w='20px' src={lightIcon}/>
+                                            {item.lightFrequency} light
+                                        </HStack>
+                                    </Flex>
+
+                                </Flex>
+                            </Flex>
                         </Box>
                     </Box>
                 )}

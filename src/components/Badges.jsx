@@ -6,21 +6,22 @@ function Badges({badgeTag}) {
     const {colors, fonts} = theme
   return (
     <Badge
-        bgColor={
-            badgeTag === 'Featured' ? colors.brand.primary :
-            badgeTag === 'Verified' && '#489226'
-        }
-        w={'65px'}
-        h={'25px'}
-        color={'white'}
-        borderRadius={'5px'}
-        float={'right'}
-        m={'10px'}
-        display={'flex'}
-        justifyContent={'center'}
-        fontFamily={fonts.popup}
-        fontSize={'12px'}
-        fontWeight={'semibold'}
+      right='0'
+      w={'65px'}
+      h={'25px'}
+      m={'10px'}
+      color={'white'}
+      display={'flex'}
+      fontSize={'12px'}
+      borderRadius={'5px'}
+      position={'absolute'}
+      fontWeight={'semibold'}
+      fontFamily={fonts.popup}
+      justifyContent={'center'}
+      bgColor={
+          badgeTag === 'Featured' ? colors.brand.primary :
+          badgeTag === 'Verified' && '#489226'
+      }
     >
         {badgeTag}
     </Badge>
