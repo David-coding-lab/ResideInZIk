@@ -11,6 +11,7 @@ import './App.css'
 const Home = lazy(()=> import('./Pages/Home'))
 const SearchResult = lazy(()=> import('./Pages/SearchResult'))
 const LodgesDisplay = lazy(()=> import('./Pages/LodgesDisplay'))
+const LodgeVideoPlayer = lazy(()=> import('./Pages/LodgeVideoPlayer'))
 
 // Up-to-date Routing
 const Route = createBrowserRouter([
@@ -34,6 +35,11 @@ const Route = createBrowserRouter([
           }
         ]
       },
+
+      {
+        path: '/lodgeVideoPlayer',
+        element: <LodgeVideoPlayer />
+      }
     ],
   }
 ])

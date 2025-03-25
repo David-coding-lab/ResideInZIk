@@ -2,7 +2,7 @@ import '../App.css'
 
 import { AppContext } from '@/AppContext'
 import { Box } from '@chakra-ui/react'
-import { lazy, useState } from 'react'
+import { lazy, useContext, useState } from 'react'
 
 import TownsAvailable  from '@/components/TownsAvailable'
 import SearchBar from '@/components/SearchBar'
@@ -12,26 +12,9 @@ const Filter = lazy(()=> import('@/components/Filter'))
 const LoadingSpinner = lazy(()=> import('@/components/LoadingSpinner'))
 
 function Home() {
-  const [townToBeDisplayed,setTownToBeDisplayed] = useState('All')
-
-  const [userFilterOptions, setUserFilterOptions] = useState([])
-
-  const [animateFilterOut, setAnimateFilterOut] = useState(false)
-  const [loadingSpinner, setLoadingSpinner] = useState(false)
-  const [toggleFilter, setToggleFilter] = useState(false)
-  const [isLoggedIn, setIsLoggedIn] = useState(false)
-
+  const {toggleFilter,loadingSpinner} = useContext(AppContext)
   return (
-    <AppContext value={{
-      pushOutFilterComponent,setUserFilterOptions,
-      setTownToBeDisplayed, setToggleFilter,
-      setAnimateFilterOut,setLoadingSpinner,
-      setIsLoggedIn,
-
-      townToBeDisplayed, userFilterOptions,
-      toggleFilter, animateFilterOut,
-      isLoggedIn,
-    }}>
+    <Box>
 
       {/* FilterComponent */}
       {toggleFilter && <Filter />}
@@ -49,25 +32,8 @@ function Home() {
 
       <Outlet />
 
-    </AppContext>
+    </Box>
   )
 }
 
 export default Home
-
-
-
-// Other functions and component to be shared across
-
-function pushOutFilterComponent(setAnimateFilterOut, setToggleFilter,setUserFilterOptions,location,navigate){
-  setAnimateFilterOut(true)
-
-  setUserFilterOptions && setUserFilterOptions([])
-
-  setTimeout(() => {
-    setToggleFilter(false)
-    setAnimateFilterOut(false)
-
-    location && location.pathname !== '/' && navigate('/')
-  }, 401);
-}

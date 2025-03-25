@@ -9,9 +9,10 @@ import theme from "@/theme/theme";
 import playButton from "../assets/Playbtn.svg";
 import lightIcon from "../assets/lighticon.svg";
 import stairCaseIcon from "../assets/stairscaseicon.svg";
+import { useNavigate } from "react-router";
 
 function FeaturedLodge() {
-    const {isLoggedIn} = useContext(AppContext)
+    const {isLoggedIn, setVideoUrlId} = useContext(AppContext)
     const {primary} = theme.colors.brand
     const {body} = theme.fonts
 
@@ -22,6 +23,7 @@ function FeaturedLodge() {
 
     const [loading, setLoading] = useState(false); // ✅ Prevents duplicate fetches
     const [videoLoading, setVideoLoading] = useState(true)
+    const navigate = useNavigate()
 
     const observer = useRef(null);
     const lastLodgeRef = useRef(null);
@@ -77,8 +79,6 @@ function FeaturedLodge() {
 
     // Attach IntersectionObserver to the last item
     useEffect(() => {
-        if (loading) return;
-
         if (observer.current) observer.current.disconnect(); // ✅ Prevent multiple observers
 
         observer.current = new IntersectionObserver(entries => {
@@ -123,6 +123,10 @@ function FeaturedLodge() {
                         // checks for the last item so as to enable infinite scrolling
                         ref={index === featuredLodgesList.length - 1 ? lastLodgeRef : null}
                         bg="linear-gradient(to bottom,rgba(0, 0, 0, 0.07) 0%, #000000 100%)"
+                        onClick={()=>{
+                            setVideoUrlId(item.id)
+                            navigate("/lodgeVideoPlayer");
+                        }}
                     >
                         <video
                             width="100%"
@@ -143,6 +147,7 @@ function FeaturedLodge() {
                             {/* badge eg verified and premium */}
                             <Badges badgeTag={item.badge} />
 
+                            {/* Contains the play button */}
                             <Flex
                                 h='100%'
                                 flexDir='column'
@@ -156,6 +161,7 @@ function FeaturedLodge() {
                                     <Image w='60px' src={playButton}/>
                                 </IconButton>
 
+                                {/* Contains the lodge name, price and some details */}
                                 <Flex
                                     mb='15px'
                                     ml='15px'
@@ -180,7 +186,7 @@ function FeaturedLodge() {
                                             ₦{item.price} - {item.subsequentPrice}
                                         </Text>
                                     </Flex>
-
+                                    {/* lodge name */}
                                     <Text
                                         fontFamily={body}
                                         fontWeight={'semibold'}
@@ -190,7 +196,9 @@ function FeaturedLodge() {
                                         {item.name}
                                     </Text>
 
+                                    {/* Contains the lodgeFloor and light frequency */}
                                     <Flex gap='6px'>
+                                        {/* lodge floor */}
                                         <HStack
                                             color='#53587A'
                                             fontFamily={body}
@@ -200,7 +208,7 @@ function FeaturedLodge() {
                                             <Image w='20px' src={stairCaseIcon}/>
                                             {item.floor}
                                         </HStack>
-
+                                        {/* light frequency */}
                                         <HStack
                                             color='#53587A' fontFamily={body}
                                             fontWeight={'semibold'}
@@ -220,7 +228,7 @@ function FeaturedLodge() {
 
             {loading && <Center
                             w={'100px'}
-                            h={'100px'}
+                            h={'100%'}
                             bgColor={'white'}
                             borderRadius={'20px'}
                         >

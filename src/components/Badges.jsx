@@ -7,9 +7,9 @@ function Badges({badgeTag}) {
   return (
     <Badge
       right='0'
-      w={'65px'}
+      w={'70px'}
       h={'25px'}
-      m={'10px'}
+      m={'15px'}
       color={'white'}
       display={'flex'}
       fontSize={'12px'}
