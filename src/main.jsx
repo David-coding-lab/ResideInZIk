@@ -10,7 +10,7 @@ import './App.css'
 
 const Home = lazy(()=> import('./Pages/Home'))
 const SearchResult = lazy(()=> import('./Pages/SearchResult'))
-const LodgesDisplay = lazy(()=> import('./components/LodgesDisplay'))
+const LodgesDisplay = lazy(()=> import('./Pages/LodgesDisplay'))
 
 // Up-to-date Routing
 const Route = createBrowserRouter([

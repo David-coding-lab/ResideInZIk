@@ -13,19 +13,24 @@ const LoadingSpinner = lazy(()=> import('@/components/LoadingSpinner'))
 
 function Home() {
   const [townToBeDisplayed,setTownToBeDisplayed] = useState('All')
-  const [animateFilterOut, setAnimateFilterOut] = useState(false)
+
   const [userFilterOptions, setUserFilterOptions] = useState([])
+
+  const [animateFilterOut, setAnimateFilterOut] = useState(false)
   const [loadingSpinner, setLoadingSpinner] = useState(false)
   const [toggleFilter, setToggleFilter] = useState(false)
+  const [isLoggedIn, setIsLoggedIn] = useState(false)
 
   return (
     <AppContext value={{
       pushOutFilterComponent,setUserFilterOptions,
       setTownToBeDisplayed, setToggleFilter,
       setAnimateFilterOut,setLoadingSpinner,
+      setIsLoggedIn,
 
       townToBeDisplayed, userFilterOptions,
       toggleFilter, animateFilterOut,
+      isLoggedIn,
     }}>
 
       {/* FilterComponent */}
