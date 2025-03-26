@@ -80,7 +80,7 @@ function LodgeVideoPlayer() {
       top='-16px'
       overflow="hidden" // ✅ Prevents scrolling
     >
-     <Box h={'94vh'} w={'full'}>
+     <Box h={'93.5vh'} w={'full'}>
      <video
         style={{
           width: "100%",
@@ -128,7 +128,7 @@ function LodgeVideoPlayer() {
 
             {/* Contains the lodge name, price and some details */}
             <Flex
-                mb='70px'
+                mb='30px'
                 bottom='0'
                 flexDir='column'
                 gap='5px'
