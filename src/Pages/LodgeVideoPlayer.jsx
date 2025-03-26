@@ -1,17 +1,60 @@
 import { AppContext } from '@/AppContext'
+import { keyframes } from '@emotion/react';
+import { useContext, useEffect, useState } from 'react'
 import { Box, Button, Flex, HStack, IconButton, Image, Text } from '@chakra-ui/react'
-import { useContext, useState } from 'react'
-
 
 import stairCaseIcon from "../assets/stairscaseicon.svg";
 import playButton from "../assets/Playbtn.svg";
 import lightIcon from "../assets/lighticon.svg";
+import backIcon from "../assets/backIcon.svg";
 import theme from "@/theme/theme";
-import { LiaChevronCircleRightSolid } from 'react-icons/lia';
-import { keyframes } from '@emotion/react';
 
 
 function LodgeVideoPlayer() {
+  const [videoLoading,setVideoLoading] = useState(true)
+
+  const [fetchedVideoData, setFetchedVideoData] = useState(undefined)
+
+  const{body} = theme.fonts
+  const{primary} = theme.colors.brand
+  const {videoUrlId} = useContext(AppContext)
+
+  console.log(`fetching ${videoUrlId}....`);
+
+  // fetch video
+  const fetchLodgeClickedVideo = async (videoUrlId)=>{
+    setVideoLoading(true);
+
+    try {
+        const response = await fetch(`https://67e3d0dd2ae442db76d1b751.mockapi.io/lodges`);
+        if (!response.ok) {
+            throw new Error(`HTTP Error! Status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        console.log("API Response:", data);
+
+        // set the Video state
+        data.map(item =>{
+          if(item.id === videoUrlId){
+            setFetchedVideoData(item);
+            return
+          }
+        })
+
+    } catch (error) {
+        console.error("Error fetching data:", error);
+    } finally {
+        setVideoLoading(false);
+    }
+  }
+
+  useEffect(()=>{
+    fetchLodgeClickedVideo(videoUrlId)
+  },[])
+
+  // change the static video data
+  // add the play functionality
   const blink = keyframes`
       0% {
       background-position: 0% 0%;
@@ -27,19 +70,6 @@ function LodgeVideoPlayer() {
       }
   `;
 
-  const [videoLoading,setVideoLoading] = useState(true)
-
-  const{body} = theme.fonts
-  const{primary} = theme.colors.brand
-  const {videoUrlId} = useContext(AppContext)
-
-  console.log(`fetching ${videoUrlId}....`);
-
-
-  // fetch video
-  // set the Video state
-  // change the static video data
-  // add the play functionality
   return (
     <Box
       w={'full'}
@@ -50,13 +80,17 @@ function LodgeVideoPlayer() {
       top='-16px'
     >
      <Box h={'100%'} w={'full'}>
-      <video
-          // width="100%"
-          // height=""
-          src={"/Videos/VID-20250324-WA0002.mp4"}
-          onLoadedData={() => setVideoLoading(false)} // When the video is ready
-          onError={() => setVideoLoading(false)} // Hide loader even if video fails
-        />
+     <video
+        style={{
+          width: "100vw",
+          height: "100vh",
+          objectFit: "cover"
+        }}
+        src={fetchedVideoData && fetchedVideoData.video}
+        onLoadedData={() => setVideoLoading(false)}
+        onError={() => setVideoLoading(false)}
+    />
+
      </Box>
 
       <Box
@@ -69,7 +103,13 @@ function LodgeVideoPlayer() {
         bg={videoLoading ? "linear-gradient(to top, rgba(0, 0, 0, 0.6) 10%, rgba(0, 0, 0, 0) 80%)" : 'none'}
       >
         {/* Back button */}
-          <Button position='absolute' m='25px 20px'>Back</Button>
+          <Button
+            position='absolute'
+            bgColor='transparent'
+            m='27px 10px'
+          >
+            <Image w='17px' src={backIcon} />
+          </Button>
 
         {/* Contains the play button */}
         <Flex
@@ -87,7 +127,7 @@ function LodgeVideoPlayer() {
 
             {/* Contains the lodge name, price and some details */}
             <Flex
-                mb='50px'
+                mb='70px'
                 bottom='0'
                 flexDir='column'
                 gap='5px'
@@ -108,7 +148,7 @@ function LodgeVideoPlayer() {
                         fontFamily={body}
                         fontWeight='semibold'
                     >
-                        ₦{'300'} - {'150'}
+                        ₦{fetchedVideoData && fetchedVideoData.price} - {fetchedVideoData && fetchedVideoData.subsequentPrice}
                     </Text>
                 </Flex>
                 {/* lodge name */}
@@ -119,7 +159,7 @@ function LodgeVideoPlayer() {
                     fontSize='18px'
                     color='white'
                 >
-                    {'Roommate Option'}
+                    {fetchedVideoData && fetchedVideoData.name}
                 </Text>
 
                 {/* Contains the lodgeFloor and light frequency */}
@@ -132,7 +172,7 @@ function LodgeVideoPlayer() {
                         fontSize='15px'
                     >
                         <Image w='20px' src={stairCaseIcon}/>
-                        {'Ground Floor'}
+                        {fetchedVideoData && fetchedVideoData.floor}
                     </HStack>
                     {/* light frequency */}
                     <HStack
@@ -141,7 +181,7 @@ function LodgeVideoPlayer() {
                         fontSize='15px'
                     >
                         <Image w='20px' src={lightIcon}/>
-                        {'Moderate'} light
+                        {fetchedVideoData && fetchedVideoData.lightFrequency} light
                     </HStack>
                 </Flex>
 
