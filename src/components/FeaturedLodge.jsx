@@ -1,7 +1,8 @@
-import { AppContext } from "@/AppContext";
-import { Box, Card, Center, Flex, For, HStack, IconButton, Image, Spinner, Text } from "@chakra-ui/react";
 import { keyframes } from "@emotion/react";
+import { AppContext } from "@/AppContext";
+import { useNavigate } from "react-router";
 import { useContext, useEffect, useRef, useState } from "react";
+import { Box, Card, Center, Flex, For, HStack, IconButton, Image, Spinner, Text } from "@chakra-ui/react";
 
 import Badges from "./Badges";
 import theme from "@/theme/theme";
@@ -9,7 +10,6 @@ import theme from "@/theme/theme";
 import playButton from "../assets/Playbtn.svg";
 import lightIcon from "../assets/lighticon.svg";
 import stairCaseIcon from "../assets/stairscaseicon.svg";
-import { useNavigate } from "react-router";
 
 function FeaturedLodge() {
     const {isLoggedIn, setVideoUrlId} = useContext(AppContext)
@@ -48,7 +48,7 @@ function FeaturedLodge() {
         setLoading(true);
 
         try {
-            const response = await fetch(`http://localhost:3001/items?_page=${pageNumber}&_limit=2`);
+            const response = await fetch(`https://67e3d0dd2ae442db76d1b751.mockapi.io/lodges?page=${pageNumber}&limit=2`);
             if (!response.ok) {
                 throw new Error(`HTTP Error! Status: ${response.status}`);
             }
@@ -228,7 +228,7 @@ function FeaturedLodge() {
 
             {loading && <Center
                             w={'100px'}
-                            h={'100%'}
+                            h={'50vh'}
                             bgColor={'white'}
                             borderRadius={'20px'}
                         >

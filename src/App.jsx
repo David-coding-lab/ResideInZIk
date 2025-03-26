@@ -61,9 +61,6 @@ function pushOutFilterComponent(setAnimateFilterOut, setToggleFilter,setUserFilt
   }, 401);
 }
 
-
-
-
 // Components used in this webApp
 
 // 1. Header: encompases the logo of the site ✅

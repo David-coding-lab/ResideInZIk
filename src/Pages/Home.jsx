@@ -2,7 +2,7 @@ import '../App.css'
 
 import { AppContext } from '@/AppContext'
 import { Box } from '@chakra-ui/react'
-import { lazy, useContext, useState } from 'react'
+import { lazy, useContext} from 'react'
 
 import TownsAvailable  from '@/components/TownsAvailable'
 import SearchBar from '@/components/SearchBar'

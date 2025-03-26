@@ -35,3 +35,12 @@ function LoadingSpinner() {
 }
 
 export default LoadingSpinner
+
+
+// things to do
+
+// 1. create the api
+
+// 2. fetch and make it show on mobile
+
+// 3. make it play

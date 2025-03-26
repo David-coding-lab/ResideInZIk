@@ -1,7 +1,8 @@
-import { AppContext } from "@/AppContext"
 import theme from "@/theme/theme"
-import { Box, Flex, For, HStack, Input, Tag, Text } from "@chakra-ui/react"
+
+import { AppContext } from "@/AppContext"
 import { useContext, useEffect, useState } from "react"
+import { Box, Flex, For, HStack, Input, Tag, Text } from "@chakra-ui/react"
 import { useLocation, useNavigate } from "react-router"
 
 function SearchBar() {
