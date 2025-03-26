@@ -1,10 +1,11 @@
 import { AppContext } from "@/AppContext";
-import theme from "@/theme/theme";
-import { Box, Button, Checkbox, Flex, HStack, Input, Text, VStack } from "@chakra-ui/react";
 import { keyframes } from "@emotion/react";
-import { useContext, useRef, useState } from "react";
-import { toaster } from "./ui/toaster";
 import { useNavigate } from "react-router";
+import { toaster } from "./ui/toaster";
+import { useContext, useRef, useState } from "react";
+import { Box, Button, Checkbox, Flex, HStack, Input, Text, VStack } from "@chakra-ui/react";
+
+import theme from "@/theme/theme";
 
 const {body,popup} = theme.fonts
 const {primary} = theme.colors.brand

@@ -2,7 +2,7 @@ import { keyframes } from "@emotion/react";
 import { AppContext } from "@/AppContext";
 import { useNavigate } from "react-router";
 import { useContext, useEffect, useRef, useState } from "react";
-import { Box, Card, Center, Flex, For, HStack, IconButton, Image, Spinner, Text } from "@chakra-ui/react";
+import { Box, Center, Flex, For, HStack, IconButton, Image, Spinner, Text } from "@chakra-ui/react";
 
 import Badges from "./Badges";
 import theme from "@/theme/theme";
@@ -86,7 +86,7 @@ function FeaturedLodge() {
                 console.log("Last item in view. Fetching next page...");
                 setPage(prevPage => prevPage + 1) // ✅ Small delay to prevent race conditions
             }
-        }, { threshold: 1,rootMargin: '0px'});
+        }, { threshold: 1,rootMargin: '50px'});
 
         if (lastLodgeRef.current) observer.current.observe(lastLodgeRef.current);
 

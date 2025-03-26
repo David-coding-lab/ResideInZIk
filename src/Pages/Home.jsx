@@ -1,14 +1,14 @@
 import '../App.css'
 
 import { AppContext } from '@/AppContext'
-import { Box } from '@chakra-ui/react'
 import { lazy, useContext} from 'react'
+import { Box } from '@chakra-ui/react'
+import { Outlet } from 'react-router'
 
 import TownsAvailable  from '@/components/TownsAvailable'
 import SearchBar from '@/components/SearchBar'
-import { Outlet } from 'react-router'
+import Filter from '@/components/Filter'
 
-const Filter = lazy(()=> import('@/components/Filter'))
 const LoadingSpinner = lazy(()=> import('@/components/LoadingSpinner'))
 
 function Home() {
