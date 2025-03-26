@@ -78,12 +78,13 @@ function LodgeVideoPlayer() {
       position={'relative'}
       zIndex='-1'
       top='-16px'
+      overflow="hidden" // ✅ Prevents scrolling
     >
-     <Box h={'100%'} w={'full'}>
+     <Box h={'94vh'} w={'full'}>
      <video
         style={{
-          width: "100vw",
-          height: "100vh",
+          width: "100%",
+          height: "100%",
           objectFit: "cover"
         }}
         src={fetchedVideoData && fetchedVideoData.video}
