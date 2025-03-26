@@ -73,7 +73,7 @@ function LodgeVideoPlayer() {
   return (
     <Box
       w={'full'}
-      h={'100%'}
+      h={'calc(100vh - 64px - 16px)'}
       bgColor='black'
       position={'relative'}
       zIndex='-1'
