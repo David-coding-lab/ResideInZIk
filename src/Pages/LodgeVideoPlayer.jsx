@@ -1,13 +1,14 @@
 import { AppContext } from '@/AppContext'
 import { useNavigate } from 'react-router';
 import { useContext, useEffect, useRef, useState } from 'react'
-import { Box, Button, Flex, HStack, Image, Text } from '@chakra-ui/react'
+import { Box, Button, Flex, HStack, Image, Skeleton, Text } from '@chakra-ui/react'
 
 import stairCaseIcon from "../assets/stairscaseicon.svg";
 import playButton from "../assets/Playbtn.svg";
 import lightIcon from "../assets/lighticon.svg";
 import backIcon from "../assets/backIcon.svg";
 import theme from "@/theme/theme";
+import LoadingSpinner from '@/components/LoadingSpinner';
 
 function LodgeVideoPlayer() {
   const lodgeDetailsContainer = useRef(null)
@@ -72,15 +73,13 @@ function LodgeVideoPlayer() {
       onClick={() => pauseVideo(videoRef,lodgeDetailsContainer,backButton,playBtn)}
     >
 
-      {/* <Box h="100%" w="100%">
-      </Box> */}
-
       {/* Back button */}
         <Button
           position='absolute'
           bgColor='transparent'
           m='47px 5px'
           ref={backButton}
+          onClick={() => navigate('/')}
         >
           <Image w='17px' src={backIcon} />
         </Button>
@@ -99,12 +98,16 @@ function LodgeVideoPlayer() {
         ref={videoRef}
       />
 
+      {videoLoading &&
+        <LoadingSpinner />
+      }
 
       {/* Contains the play button */}
       <Flex
           h='100%'
           flexDir='column'
           justify='space-between'
+          display={videoLoading ? 'none' : 'flex'}
       >
         <Image
           w='80px'

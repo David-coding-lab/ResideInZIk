@@ -2,7 +2,7 @@ import { keyframes } from "@emotion/react";
 import { AppContext } from "@/AppContext";
 import { useNavigate } from "react-router";
 import { useContext, useEffect, useRef, useState } from "react";
-import { Box, Center, Flex, For, HStack, IconButton, Image, Spinner, Text } from "@chakra-ui/react";
+import { Box, Center, Flex, For, HStack, IconButton, Image, Skeleton, Spinner, Text } from "@chakra-ui/react";
 
 import Badges from "./Badges";
 import theme from "@/theme/theme";
@@ -13,7 +13,6 @@ import stairCaseIcon from "../assets/stairscaseicon.svg";
 
 function FeaturedLodge() {
     const {isLoggedIn, setVideoUrlId} = useContext(AppContext)
-    const {primary} = theme.colors.brand
     const {body} = theme.fonts
 
     const [featuredLodgesList, setFeaturedLodgesList] = useState([]);
@@ -64,7 +63,7 @@ function FeaturedLodge() {
         } catch (error) {
             console.error("Error fetching data:", error);
         } finally {
-                setLoading(false);
+                // setLoading(false);
         }
     };
 
@@ -224,19 +223,24 @@ function FeaturedLodge() {
                 )}
             </For>
 
-            {loading && <Center
-                            w={'100px'}
-                            h={'50vh'}
-                            bgColor={'white'}
-                            borderRadius={'20px'}
-                        >
-                            <Spinner
-                                color={primary}
-                                size={"xl"}
-                                borderWidth={'3px'}
-                                animationDuration={'.8s'}
-                            />
-                        </Center>
+            {loading &&
+                <For each={['', '']}>
+                    {(item,index)=> (
+                        <Skeleton
+                            key={index}
+                            h={'400px'}
+                            minW={'260px'}
+                            border={'none'}
+                            ml='10px'
+                            mt='10px'
+                            borderRadius={'15px'}
+                            scrollSnapAlign={'center'}
+                            scrollBehavior={'smooth'}
+                            overflow='hidden'
+                            position={'relative'}
+                        />
+                    )}
+                </For>
             }
         </Flex>
     );
