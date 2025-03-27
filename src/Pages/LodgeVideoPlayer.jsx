@@ -72,27 +72,27 @@ function LodgeVideoPlayer() {
 
   return (
     <Box
-      w={'full'}
-      h={'calc(100vh - 64px - 16px)'}
-      bgColor='black'
-      position={'relative'}
       zIndex='-1'
-      top='-16px'
-      overflow="hidden" // ✅ Prevents scrolling
+      w="100vw"
+      bgColor="black"
+      h="calc(100vh - 64px + 16px)" // ✅ calculates and knows how to gain the full heighth of any screen
+      overflow="hidden" // ✅ Prevents extra scrolling
+      top="-16px" // ✅ Moves it up slightly to fit under the header
+      position="relative" // ✅ Ensures it stays under the curved header
     >
-     <Box h={'93.5vh'} w={'full'}>
-     <video
-        style={{
-          width: "100%",
-          height: "100%",
-          objectFit: "cover"
-        }}
-        src={fetchedVideoData && fetchedVideoData.video}
-        onLoadedData={() => setVideoLoading(false)}
-        onError={() => setVideoLoading(false)}
-    />
 
-     </Box>
+      <Box h="100%" w="100%">
+        <video
+          style={{
+            width: "100%",
+            height: "100%",
+            objectFit: "cover", // ✅ Ensures full screen video without stretching
+          }}
+          src={fetchedVideoData?.video}
+          onLoadedData={() => setVideoLoading(false)}
+          onError={() => setVideoLoading(false)}
+        />
+      </Box>
 
       <Box
         position="absolute"
@@ -198,10 +198,13 @@ function LodgeVideoPlayer() {
                 </Button>
 
             </Flex>
+
         </Flex>
       </Box>
+
     </Box>
   )
 }
 
 export default LodgeVideoPlayer
+
