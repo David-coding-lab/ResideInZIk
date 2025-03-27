@@ -1,7 +1,7 @@
 import { AppContext } from '@/AppContext'
-import { keyframes } from '@emotion/react';
-import { useContext, useEffect, useState } from 'react'
-import { Box, Button, Flex, HStack, IconButton, Image, Text } from '@chakra-ui/react'
+import { useNavigate } from 'react-router';
+import { useContext, useEffect, useRef, useState } from 'react'
+import { Box, Button, Flex, HStack, Image, Text } from '@chakra-ui/react'
 
 import stairCaseIcon from "../assets/stairscaseicon.svg";
 import playButton from "../assets/Playbtn.svg";
@@ -9,8 +9,13 @@ import lightIcon from "../assets/lighticon.svg";
 import backIcon from "../assets/backIcon.svg";
 import theme from "@/theme/theme";
 
-
 function LodgeVideoPlayer() {
+  const lodgeDetailsContainer = useRef(null)
+  const backButton = useRef(null)
+  const videoRef = useRef(null)
+  const playBtn = useRef(null)
+  const navigate = useNavigate()
+
   const [videoLoading,setVideoLoading] = useState(true)
 
   const [fetchedVideoData, setFetchedVideoData] = useState(undefined)
@@ -18,8 +23,6 @@ function LodgeVideoPlayer() {
   const{body} = theme.fonts
   const{primary} = theme.colors.brand
   const {videoUrlId} = useContext(AppContext)
-
-  console.log(`fetching ${videoUrlId}....`);
 
   // fetch video
   const fetchLodgeClickedVideo = async (videoUrlId)=>{
@@ -32,7 +35,6 @@ function LodgeVideoPlayer() {
         }
 
         const data = await response.json();
-        console.log("API Response:", data);
 
         // set the Video state
         data.map(item =>{
@@ -53,158 +55,179 @@ function LodgeVideoPlayer() {
     fetchLodgeClickedVideo(videoUrlId)
   },[])
 
-  // change the static video data
+  useEffect(()=>{
+    !videoUrlId && navigate('/')
+  },[videoUrlId])
+
+  // change the static video data ✅
   // add the play functionality
-  const blink = keyframes`
-      0% {
-      background-position: 0% 0%;
-      background-size: 100% 100%;
-      }
-      50% {
-      background-position: 100% 100%;
-      background-size: 150% 150%;
-      }
-      100% {
-      background-position: 0% 0%;
-      background-size: 100% 100%;
-      }
-  `;
 
   return (
     <Box
-      zIndex='-1'
-      w="100vw"
-      bgColor="black"
+      w="flex"
       h="calc(100vh - 64px + 16px)" // ✅ calculates and knows how to gain the full heighth of any screen
       overflow="hidden" // ✅ Prevents extra scrolling
       top="-16px" // ✅ Moves it up slightly to fit under the header
       position="relative" // ✅ Ensures it stays under the curved header
+      onClick={() => pauseVideo(videoRef,lodgeDetailsContainer,backButton,playBtn)}
     >
 
-      <Box h="100%" w="100%">
-        <video
-          style={{
-            width: "100%",
-            height: "100%",
-            objectFit: "cover", // ✅ Ensures full screen video without stretching
-          }}
-          src={fetchedVideoData?.video}
-          onLoadedData={() => setVideoLoading(false)}
-          onError={() => setVideoLoading(false)}
-        />
-      </Box>
+      {/* <Box h="100%" w="100%">
+      </Box> */}
 
-      <Box
-        position="absolute"
-        top="0"
-        left="0"
-        w="100%"
-        h="100%"
-        animation={videoLoading ? `${blink} 3s infinite alternate` : "none"}
-        bg={videoLoading ? "linear-gradient(to top, rgba(0, 0, 0, 0.6) 10%, rgba(0, 0, 0, 0) 80%)" : 'none'}
-      >
-        {/* Back button */}
-          <Button
-            position='absolute'
-            bgColor='transparent'
-            m='27px 10px'
-          >
-            <Image w='17px' src={backIcon} />
-          </Button>
-
-        {/* Contains the play button */}
-        <Flex
-            h='100%'
-            flexDir='column'
-            justify='space-between'
+      {/* Back button */}
+        <Button
+          position='absolute'
+          bgColor='transparent'
+          m='47px 5px'
+          ref={backButton}
         >
-            <IconButton
-                bgColor='transparent'
-                alignSelf='center'
-                mt='85%'
-            >
-                <Image w='60px' src={playButton}/>
-            </IconButton>
+          <Image w='17px' src={backIcon} />
+        </Button>
 
-            {/* Contains the lodge name, price and some details */}
-            <Flex
-                mb='30px'
-                bottom='0'
-                flexDir='column'
-                gap='5px'
-            >
+      <video
+        style={{
+          zIndex: '-1',
+          width: "100%",
+          height: "100%",
+          objectFit: "cover", // ✅ Ensures full screen video without stretching
+          position: 'absolute',
+        }}
+        src={fetchedVideoData?.video}
+        onLoadedData={() => setVideoLoading(false)}
+        onError={() => setVideoLoading(false)}
+        ref={videoRef}
+      />
 
-                {/* lodge price */}
-                <Flex
-                    ml='15px'
-                    w='125px'
-                    h='40px'
-                    borderRadius='16px'
-                    bgColor='rgba(72, 146, 38, 0.6)'
-                    align='center'
-                    justify='center'
-                >
-                    <Text
-                        color='white'
-                        fontFamily={body}
-                        fontWeight='semibold'
-                    >
-                        ₦{fetchedVideoData && fetchedVideoData.price} - {fetchedVideoData && fetchedVideoData.subsequentPrice}
-                    </Text>
-                </Flex>
-                {/* lodge name */}
-                <Text
-                    ml='15px'
-                    fontFamily={body}
-                    fontWeight={'semibold'}
-                    fontSize='18px'
-                    color='white'
-                >
-                    {fetchedVideoData && fetchedVideoData.name}
-                </Text>
 
-                {/* Contains the lodgeFloor and light frequency */}
-                    <Flex gap='6px' ml='15px'>
-                    {/* lodge floor */}
-                    <HStack
-                        color='#53587A'
-                        fontFamily={body}
-                        fontWeight={'semibold'}
-                        fontSize='15px'
-                    >
-                        <Image w='20px' src={stairCaseIcon}/>
-                        {fetchedVideoData && fetchedVideoData.floor}
-                    </HStack>
-                    {/* light frequency */}
-                    <HStack
-                        color='#53587A' fontFamily={body}
-                        fontWeight={'semibold'}
-                        fontSize='15px'
-                    >
-                        <Image w='20px' src={lightIcon}/>
-                        {fetchedVideoData && fetchedVideoData.lightFrequency} light
-                    </HStack>
-                </Flex>
+      {/* Contains the play button */}
+      <Flex
+          h='100%'
+          flexDir='column'
+          justify='space-between'
+      >
+        <Image
+          w='80px'
+          src={playButton}
+          onClick={(e)=>playVideo(videoRef,lodgeDetailsContainer,backButton,playBtn,e)}
+          alignSelf='center'
+          mt='80%'
+          zIndex='100'
+          ref={playBtn}
+        />
 
-                <Button
-                  m='auto'
-                  h='50px'
-                  width='350px'
-                  mt='10px'
-                  bgColor={primary}
-                  borderRadius='15px'
-                >
-                  View Lodge
-                </Button>
+          {/* Contains the lodge name, price and some details */}
+          <Flex
+              mb='30px'
+              bottom='0'
+              flexDir='column'
+              gap='5px'
+              ref={lodgeDetailsContainer}
+          >
 
-            </Flex>
+              {/* lodge price */}
+              <Flex
+                  ml='15px'
+                  w='125px'
+                  h='40px'
+                  borderRadius='16px'
+                  bgColor='rgba(72, 146, 38, 0.6)'
+                  align='center'
+                  justify='center'
+              >
+                  <Text
+                      color='white'
+                      fontFamily={body}
+                      fontWeight='semibold'
+                  >
+                      ₦{fetchedVideoData && fetchedVideoData.price} - {fetchedVideoData && fetchedVideoData.subsequentPrice}
+                  </Text>
+              </Flex>
+              {/* lodge name */}
+              <Text
+                  ml='15px'
+                  fontFamily={body}
+                  fontWeight={'semibold'}
+                  fontSize='18px'
+                  color='white'
+              >
+                  {fetchedVideoData && fetchedVideoData.name}
+              </Text>
 
-        </Flex>
-      </Box>
+              {/* Contains the lodgeFloor and light frequency */}
+                  <Flex gap='6px' ml='15px'>
+                  {/* lodge floor */}
+                  <HStack
+                      color='#EBEBEB'
+                      fontFamily={body}
+                      fontWeight={'semibold'}
+                      fontSize='15px'
+                  >
+                      <Image w='20px' src={stairCaseIcon}/>
+                      {fetchedVideoData && fetchedVideoData.floor}
+                  </HStack>
+                  {/* light frequency */}
+                  <HStack
+                      color='#EBEBEB' fontFamily={body}
+                      fontWeight={'semibold'}
+                      fontSize='15px'
+                  >
+                      <Image w='20px' src={lightIcon}/>
+                      {fetchedVideoData && fetchedVideoData.lightFrequency} light
+                  </HStack>
+              </Flex>
 
+              <Button
+                m='auto'
+                h='50px'
+                width='350px'
+                mt='10px'
+                bgColor={primary}
+                borderRadius='15px'
+              >
+                View Lodge
+              </Button>
+
+          </Flex>
+
+      </Flex>
     </Box>
+
   )
 }
 
 export default LodgeVideoPlayer
 
+
+
+// other functions and stuffs
+
+
+
+function playVideo(videoRef, lodgeDetailsContainer, backButton, playBtn, e) {
+  e.stopPropagation(); // Prevent pausing when clicking play button
+
+  if (videoRef.current) {
+    lodgeDetailsContainer.current.style.transform = `translateY(200px)`;
+    lodgeDetailsContainer.current.style.transition = "transform 0.5s ease-in-out";
+
+    backButton.current.style.transform = `translateY(-200px)`;
+    backButton.current.style.transition = "transform 0.5s ease-in-out";
+
+    playBtn.current.style.visibility = 'hidden'
+
+    setTimeout(() => {
+      videoRef.current.play();
+    }, 500);
+  }
+}
+
+function pauseVideo(videoRef, lodgeDetailsContainer, backButton, playBtn) {
+  if (videoRef.current) {
+    videoRef.current.pause();
+
+    lodgeDetailsContainer.current.style.transform = `translateY(0px)`;
+    backButton.current.style.transform = `translateY(0px)`;
+    playBtn.current.style.visibility = 'visible'
+  }
+}

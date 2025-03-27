@@ -54,7 +54,6 @@ function FeaturedLodge() {
             }
 
             const data = await response.json();
-            console.log("API Response:", data);
 
             if (!Array.isArray(data)) {
                 throw new Error("Data format incorrect: expected an array");
@@ -83,7 +82,6 @@ function FeaturedLodge() {
 
         observer.current = new IntersectionObserver(entries => {
             if (entries[0].isIntersecting) {
-                console.log("Last item in view. Fetching next page...");
                 setPage(prevPage => prevPage + 1) // ✅ Small delay to prevent race conditions
             }
         }, { threshold: 1,rootMargin: '50px'});
