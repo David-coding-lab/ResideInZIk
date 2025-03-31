@@ -11,19 +11,31 @@ import theme from "@/theme/theme";
 import LoadingSpinner from '@/components/LoadingSpinner';
 
 function LodgeVideoPlayer() {
-  const lodgeDetailsContainer = useRef(null)
-  const backButton = useRef(null)
-  const videoRef = useRef(null)
   const playBtn = useRef(null)
+  const videoRef = useRef(null)
+  const backButton = useRef(null)
+  const lodgeDetailsContainer = useRef(null)
+
   const navigate = useNavigate()
 
   const [videoLoading,setVideoLoading] = useState(true)
+
+  const [page,setPage] = useState(1)
 
   const [fetchedVideoData, setFetchedVideoData] = useState(undefined)
 
   const{body} = theme.fonts
   const{primary} = theme.colors.brand
-  const {videoUrlId} = useContext(AppContext)
+  const {
+    videoUrlId,
+    setActivateMessage,
+    setMessageBody,
+    setMessageFunction,
+    setMessageButtonText,
+    setMessageTitle,
+  } = useContext(AppContext)
+
+  const refetch = () => setPage(prevNum => prevNum + 1)
 
   // fetch video
   const fetchLodgeClickedVideo = async (videoUrlId)=>{
@@ -47,6 +59,12 @@ function LodgeVideoPlayer() {
 
     } catch (error) {
         console.error("Error fetching data:", error);
+
+        setActivateMessage(true)
+        setMessageTitle('Loading Error')
+        setMessageBody('there was a problem loading this videos, please try again')
+        setMessageButtonText('Retry')
+        setMessageFunction(()=> refetch)
     } finally {
         setVideoLoading(false);
     }
@@ -54,7 +72,7 @@ function LodgeVideoPlayer() {
 
   useEffect(()=>{
     fetchLodgeClickedVideo(videoUrlId)
-  },[])
+  },[page])
 
   useEffect(()=>{
     !videoUrlId && navigate('/')
@@ -115,7 +133,6 @@ function LodgeVideoPlayer() {
           onClick={(e)=>playVideo(videoRef,lodgeDetailsContainer,backButton,playBtn,e)}
           alignSelf='center'
           mt='80%'
-          zIndex='100'
           ref={playBtn}
         />
 

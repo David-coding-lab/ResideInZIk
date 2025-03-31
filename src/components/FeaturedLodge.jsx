@@ -12,7 +12,16 @@ import lightIcon from "../assets/lighticon.svg";
 import stairCaseIcon from "../assets/stairscaseicon.svg";
 
 function FeaturedLodge() {
-    const {isLoggedIn, setVideoUrlId} = useContext(AppContext)
+    const {
+        isLoggedIn,
+        setVideoUrlId,
+        setActivateMessage,
+        setMessageBody,
+        setMessageFunction,
+        setMessageButtonText,
+        setMessageTitle,
+    } = useContext(AppContext)
+
     const {body} = theme.fonts
 
     const [featuredLodgesList, setFeaturedLodgesList] = useState([]);
@@ -42,6 +51,9 @@ function FeaturedLodge() {
         background-size: 100% 100%;
         }
     `;
+
+    const refetch = () => setPage(prevNum => prevNum + 1)
+
     // makes a fetch to replicate backend pagination
     const fetchFeaturedLodges = async (pageNumber) => {
         setLoading(true);
@@ -54,16 +66,18 @@ function FeaturedLodge() {
 
             const data = await response.json();
 
-            if (!Array.isArray(data)) {
-                throw new Error("Data format incorrect: expected an array");
-            }
-
             setFeaturedLodgesList(prevItems => ([...prevItems, ...data]));
 
         } catch (error) {
             console.error("Error fetching data:", error);
+
+            setActivateMessage(true)
+            setMessageTitle('Connection Failed')
+            setMessageBody('there was a problem loading videos, please try again')
+            setMessageButtonText('Retry')
+            setMessageFunction(()=> refetch)
         } finally {
-                // setLoading(false);
+            setLoading(false);
         }
     };
 
