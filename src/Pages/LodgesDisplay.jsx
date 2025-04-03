@@ -1,4 +1,5 @@
 import FeaturedLodge from '@/components/FeaturedLodge'
+import LodgesContainer from '@/components/LodgesContainer'
 import { Box } from '@chakra-ui/react'
 
 function LodgesDisplay() {
@@ -6,7 +7,7 @@ function LodgesDisplay() {
     <Box>
       <FeaturedLodge />
 
-
+      <LodgesContainer />
     </Box>
   )
 }

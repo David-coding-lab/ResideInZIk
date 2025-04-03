@@ -4,14 +4,14 @@ import { Box, Button, Container, Text,} from "@chakra-ui/react"
 import { Outlet } from "react-router"
 import { Toaster } from "./components/ui/toaster"
 import { AppContext } from "./AppContext"
-import { lazy, useState } from "react"
+import { useState } from "react"
 
-const MessageUser = lazy(()=> import ('@/components/MessageUser'))
+import MessageUser from "./components/MessageUser"
 
 
 
 function App() {
-  const [townToBeDisplayed,setTownToBeDisplayed] = useState('All')
+  const [townToBeDisplayed, setTownToBeDisplayed] = useState('All')
   const [messageButtonText ,setMessageButtonText] = useState('')
   const [messageTitle ,setMessageTitle] = useState('')
   const [messageBody ,setMessageBody] = useState('')
@@ -29,7 +29,7 @@ function App() {
 
 return(
     <AppContext value={{
-      pushOutFilterComponent,setUserFilterOptions,
+      pushOutFilterComponent, setUserFilterOptions,
       setTownToBeDisplayed, setToggleFilter,
       setAnimateFilterOut,setLoadingSpinner,
       setIsLoggedIn, setVideoUrlId, setMessageTitle,
@@ -65,8 +65,9 @@ return(
 export default App
 
 
-// Other functions and component to be shared across
+// ------- Other functions and component to be shared across ----
 
+// removes the filter component with a push out effect animation
 function pushOutFilterComponent(setAnimateFilterOut, setToggleFilter,setUserFilterOptions,location,navigate){
   setAnimateFilterOut(true)
 
@@ -82,7 +83,7 @@ function pushOutFilterComponent(setAnimateFilterOut, setToggleFilter,setUserFilt
 
 // Components used in this webApp
 
-// 1. Header: encompases the logo of the site ✅
+// 1. Header: encompase the logo of the site ✅
 
 // 2. Filter Location badges: filters lodges with the specific location ✅
 
@@ -94,4 +95,7 @@ function pushOutFilterComponent(setAnimateFilterOut, setToggleFilter,setUserFilt
 
 // 6. Footer Notification: shows messages at the footer
 
-// 7. badges: badges with their different text and value boosting the lodge visibility and conversion rate
+// 7. Badges: badges with their different text and value boosting the lodge visibility and conversion rate
+
+// 8. SearchBar: contains the search value and sends it to the database
+

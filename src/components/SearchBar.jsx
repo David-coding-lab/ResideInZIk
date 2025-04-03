@@ -1,8 +1,8 @@
 import theme from "@/theme/theme"
 
 import { AppContext } from "@/AppContext"
-import { useContext, useEffect, useState } from "react"
-import { Box, Flex, For, HStack, Input, Tag, Text } from "@chakra-ui/react"
+import { useContext, useState } from "react"
+import { Flex, For, HStack, Input, Tag, Text } from "@chakra-ui/react"
 import { useLocation, useNavigate } from "react-router"
 
 function SearchBar() {
@@ -14,10 +14,12 @@ function SearchBar() {
     const {setToggleFilter, toggleFilter, setAnimateFilterOut, pushOutFilterComponent, userFilterOptions, setUserFilterOptions} = useContext(AppContext)
     const {heading} = theme.fonts
 
-    useEffect(() => {
-      if(userFilterOptions.length === 0)
-        navigate('/')
-    }, [userFilterOptions])
+    // this will be on hold until the new version of the app
+    // useEffect(() => {
+    //   if(userFilterOptions.length === 0)
+    //     navigate('/')
+    // }, [userFilterOptions])
+
     return(
         <Flex
             bgColor={'#F5F4F8'} p={'10px 17px'}
