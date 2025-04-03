@@ -1,4 +1,4 @@
-import { Box, Flex, HStack, Text } from '@chakra-ui/react'
+import { Box, HStack, Text } from '@chakra-ui/react'
 import { useContext, useState } from "react"
 import { AppContext } from '@/AppContext'
 import { useNavigate } from 'react-router'
@@ -60,7 +60,7 @@ function TownsAvailable() {
 const Towns = ({townAvailableName, isCurrent, setIsCurrent})=>{
     const navigate = useNavigate()
 
-    const {setTownToBeDisplayed} = useContext(AppContext)
+    const { setUserSearch } = useContext(AppContext)
     return(
         <Box
             minW="auto"
@@ -69,9 +69,9 @@ const Towns = ({townAvailableName, isCurrent, setIsCurrent})=>{
 
             onClick={()=>
                 {
-                    setTownToBeDisplayed(townAvailableName)
+                    setUserSearch(townAvailableName === 'All' ? 'Search Areas, Lodge Name, etc': townAvailableName)
                     setIsCurrent(townAvailableName)
-                    navigate('/searchResult')
+                    navigate(townAvailableName === 'All' ? '/' : 'searchResult')
                 }}
             bgColor={
                 isCurrent === townAvailableName ?

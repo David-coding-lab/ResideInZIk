@@ -1,17 +1,15 @@
 import theme from "@/theme/theme"
 
 import { AppContext } from "@/AppContext"
-import { useContext, useState } from "react"
-import { Flex, For, HStack, Input, Tag, Text } from "@chakra-ui/react"
-import { useLocation, useNavigate } from "react-router"
+import { useContext } from "react"
+import { Flex, HStack, Input} from "@chakra-ui/react"
+import { useNavigate } from "react-router"
 
 function SearchBar() {
-    const [searchText, setSearchText] = useState('')
-
-    const location = useLocation()
+    // const location = useLocation()
     const navigate = useNavigate()
 
-    const {setToggleFilter, toggleFilter, setAnimateFilterOut, pushOutFilterComponent, userFilterOptions, setUserFilterOptions} = useContext(AppContext)
+    const {userSearch, setUserSearch} = useContext(AppContext)
     const {heading} = theme.fonts
 
     // this will be on hold until the new version of the app
@@ -29,17 +27,26 @@ function SearchBar() {
         >
             <HStack gap='0'>
 
-                {/* Search icon. when clicked will submit searchText to the backend and the fetched data will be updated to the client side*/}
-                {location.pathname !== '/searchResult' &&
-                    <svg width="20px" cursor='pointer' height="20px" viewBox="0 0 17 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                {/* Search icon. when clicked will submit UserSearch to the backend and the fetched data will be updated to the client side*/}
+                {   <svg
+                        width="20px" cursor='pointer'
+                        height="20px" viewBox="0 0 17 16"
+                        fill="none" xmlns="http://www.w3.org/2000/svg"
+                        onClick={() => {
+                            userSearch !== '' && navigate('searchResult')
+                        }}
+                    >
                         <path d="M7 12C10.0376 12 12.5 9.53757 12.5 6.5C12.5 3.46243 10.0376 1 7 1C3.96243 1 1.5 3.46243 1.5 6.5C1.5 9.53757 3.96243 12 7 12Z" stroke="#3D1287" strokeOpacity="0.6" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
                         <path d="M15.4999 15.0001L10.8333 10.6667" stroke="#3D1287" strokeOpacity="0.6" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
                     </svg>
                 }
 
                 {/* this will contain all filtered location text when you shuffle and apply */}
-                <Flex
-                    display={location.pathname === '/searchResult' ? 'flex' : 'none'}
+                {/* ------------------------------------------------------- */}
+                    {/* forsaken function, until a new version is planned  */}
+                {/* ------------------------------------------------------- */}
+                {/* <Flex
+                    display={'flex'}
                     w='60vw'
                     h='50px'
                     m='10px 5px'
@@ -47,6 +54,7 @@ function SearchBar() {
                     overflowX='auto' // ✅ Enables horizontal scrolling
                     whiteSpace='nowrap' // ✅ Prevents wrapping
                 >
+
                     <For each={userFilterOptions}>
                         {(item, index) => (
                             <Tag.Root
@@ -74,26 +82,28 @@ function SearchBar() {
                             </Tag.Root>
                         )}
                     </For>
-                </Flex>
+                </Flex> */}
 
 
                 {/* Input Field for search */}
                 <Input
                     type={"text"}
-                    display={location.pathname === '/searchResult' ? 'none' : 'block'}
                     w={'auto'}
                     border={'none'}
                     outline={'none'}
                     color={'rgba(61, 18, 135, 0.6)'}
-                    value={searchText}
+                    value={userSearch}
                     placeholder="Search Areas, Lodge Name, etc"
                     fontSize={'16px'}
                     fontFamily={heading}
-                    onChange={(e)=> setSearchText(e.target.value)}
+                    onChange={(e)=> setUserSearch(e.target.value)}
                 />
             </HStack>
 
-            <svg
+            {/* ---------------------------------  */}
+            {/* forsaken, until a new version */}
+            {/* ---------------------------------  */}
+            {/* <svg
                 width="20" cursor='pointer'
                 visibility={toggleFilter || location.pathname === '/searchResult' ? 'hidden' : 'visible'}
                 height="20" viewBox="0 0 18 19"
@@ -112,7 +122,7 @@ function SearchBar() {
                 onClick={()=>{pushOutFilterComponent(setAnimateFilterOut, setToggleFilter, setUserFilterOptions,location,navigate)}}
             >
                 Cancel
-            </Text>
+            </Text> */}
 
         </Flex>
     )

@@ -1,6 +1,6 @@
 import Header from "./components/Header"
 
-import { Box, Button, Container, Text,} from "@chakra-ui/react"
+import { Box } from "@chakra-ui/react"
 import { Outlet } from "react-router"
 import { Toaster } from "./components/ui/toaster"
 import { AppContext } from "./AppContext"
@@ -15,6 +15,7 @@ function App() {
   const [messageButtonText ,setMessageButtonText] = useState('')
   const [messageTitle ,setMessageTitle] = useState('')
   const [messageBody ,setMessageBody] = useState('')
+  const [userSearch, setUserSearch] = useState('')
   const [videoUrlId ,setVideoUrlId] = useState('')
 
   const [messageFunction ,setMessageFunction] = useState(()=> {})
@@ -34,14 +35,14 @@ return(
       setAnimateFilterOut,setLoadingSpinner,
       setIsLoggedIn, setVideoUrlId, setMessageTitle,
       setMessageBody, setMessageFunction, setActivateMessage,
-      setMessageButtonText,
+      setMessageButtonText, setUserSearch,
 
       townToBeDisplayed, userFilterOptions,
       toggleFilter, animateFilterOut,
       isLoggedIn, loadingSpinner,
       videoUrlId, messageTitle,
       messageBody, messageFunction,
-      messageButtonText
+      messageButtonText, userSearch,
     }}>
       <Box>
 
