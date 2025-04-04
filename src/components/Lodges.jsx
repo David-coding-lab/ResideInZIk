@@ -19,7 +19,8 @@ function Lodges(
   return (
     <Flex
         h={{base: '280px', sm: '300px', md: '340px'}}
-        w={{base: '190px', sm: '240px', md: '260px'}}
+        w={{sm: '240px', md: '260px'}}
+        minW='175px'
         bgColor='#F5F4F8'
         flexDir='column'
         padding='8px'
@@ -41,8 +42,8 @@ function Lodges(
             <Badge
                 pos='absolute'
                 zIndex='1'
-                mt={{base: '120px', sm: '160px', md: '180px'}}
-                ml={{base: '75px', sm: '115px', md: '140px'}}
+                mt={{base: '110px', sm: '160px', md: '180px'}}
+                ml={{base: '65px', sm: '115px', md: '140px'}}
                 p={{base: '6px', sm: '10px'}}
                 borderRadius='8px'
                 fontFamily={fonts.body}
