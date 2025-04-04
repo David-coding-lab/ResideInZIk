@@ -23,7 +23,7 @@ function MessageUser() {
         top={'0'}
         h={'100vh'}
         w={'100vw'}
-        zIndex={'1'}
+        zIndex={'2'}
         position={'fixed'}
         bgColor={'rgba(0, 0, 0, 0.25)'}
     >
@@ -74,7 +74,6 @@ function MessageUser() {
                 onClick={()=> {
                     if (typeof messageFunction === 'function') {
                         messageFunction(); // Call the function only if it's valid
-                        console.log('isFunction');
                     }
 
                     setActivateMessage(false)

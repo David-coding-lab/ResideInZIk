@@ -71,7 +71,7 @@ const Towns = ({townAvailableName, isCurrent, setIsCurrent})=>{
             display="flex"
             alignItems="center"
             justifyContent="center"
-            zIndex='100'
+            zIndex='1'
             onClick={()=>
                 {
                     setUserSearch(townAvailableName === 'All' ? 'Search Areas, Lodge Name, etc': townAvailableName)
@@ -96,3 +96,4 @@ const Towns = ({townAvailableName, isCurrent, setIsCurrent})=>{
 export default TownsAvailable
 
 // Function to Toggle lodge with current town to be displayed
+
