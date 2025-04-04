@@ -18,7 +18,7 @@ function Lodges(
         const {colors, fonts} = theme
   return (
     <Flex
-        h={{base: '280px', sm: '300px', md: '340px'}}
+        h={{base: '275px', sm: '300px', md: '340px'}}
         w={{sm: '240px', md: '260px'}}
         minW='175px'
         bgColor='#F5F4F8'
@@ -35,6 +35,8 @@ function Lodges(
                 zIndex='1'
                 border='1px solid white'
                 m='10px'
+                w={{base: '35px',sm: '40px',md: '45px',}}
+                h={{base: '35px',sm: '40px',md: '45px',}}
             >
                 <Avatar.Image src={AgentProfilePic}/>
             </Avatar.Root>
@@ -43,7 +45,7 @@ function Lodges(
                 pos='absolute'
                 zIndex='1'
                 mt={{base: '110px', sm: '160px', md: '180px'}}
-                ml={{base: '65px', sm: '115px', md: '140px'}}
+                ml={{base: '63px', sm: '115px', md: '140px'}}
                 p={{base: '6px', sm: '10px'}}
                 borderRadius='8px'
                 fontFamily={fonts.body}
@@ -85,7 +87,7 @@ function Lodges(
                 <Text
                     fontFamily={fonts.body}
                     fontWeight='normal'
-                    fontSize='16px'
+                    fontSize='15px'
                     color='#53587A'
                 >{LodgeLocation}</Text>
             </HStack>
