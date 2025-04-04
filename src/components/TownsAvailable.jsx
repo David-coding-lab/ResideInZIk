@@ -13,17 +13,17 @@ function TownsAvailable() {
 
     return (
         <HStack
-          width="100%"
-          overflowX="auto"
-          gap={{ base: "15px", sm: "20px" }}
-          p="10px"
-          css={{
-            "&::-webkit-scrollbar": { height: "3px" },
-            "&::-webkit-scrollbar-thumb":
-                {   background: "rgba(61, 18, 135, 0.34)",
-                    borderRadius: "3px"
-                },
-          }}
+            width="100%"
+            overflowX="auto"
+            gap={{ base: "15px", sm: "20px" }}
+            p="10px"
+            css={{
+                "&::-webkit-scrollbar": { height: "3px" },
+                "&::-webkit-scrollbar-thumb":
+                    {   background: "rgba(61, 18, 135, 0.34)",
+                        borderRadius: "3px"
+                    },
+            }}
         >
             <Towns
                 townAvailableName ="All"
@@ -63,10 +63,15 @@ const Towns = ({townAvailableName, isCurrent, setIsCurrent})=>{
     const { setUserSearch } = useContext(AppContext)
     return(
         <Box
-            minW="auto"
-            p="10px 24px" borderRadius="20px"
-            cursor={'pointer'}
-
+            minW="max-content" // Fixing the width
+            p="10px 24px"
+            borderRadius="20px"
+            cursor="pointer"
+            textAlign="center" // Center the text
+            display="flex"
+            alignItems="center"
+            justifyContent="center"
+            zIndex='100'
             onClick={()=>
                 {
                     setUserSearch(townAvailableName === 'All' ? 'Search Areas, Lodge Name, etc': townAvailableName)
