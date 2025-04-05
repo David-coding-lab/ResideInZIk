@@ -1,11 +1,11 @@
 import '../App.css'
 
-import { AppContext } from '@/AppContext'
 import { lazy, useContext, useEffect} from 'react'
-import { Box } from '@chakra-ui/react'
 import { Outlet, useNavigate } from 'react-router'
+import { AppContext } from '@/AppContext'
+import { Box } from '@chakra-ui/react'
 
-import TownsAvailable  from '@/components/TownsAvailable'
+import FilterOptionContainer  from '@/components/FilterOptionContainer'
 import SearchBar from '@/components/SearchBar'
 import Filter from '@/components/Filter'
 
@@ -27,7 +27,10 @@ function Home() {
 
       {/* Town Shuffle Component */}
       <Box pb='10px' paddingInline='12px'>
-        <TownsAvailable />
+        <FilterOptionContainer
+          fetchUrl={'https://67f0d049c733555e24ab45e3.mockapi.io/location'}
+          fetchingWhat='locations'
+        />
       </Box>
 
       {/* Search And filter Component  */}

@@ -106,7 +106,7 @@ function FeaturedLodge() {
 
     return (
         <Flex
-            w='100%'
+            w='flex'
             h='auto'
             m='10px 5px'
             align='center'

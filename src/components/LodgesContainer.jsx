@@ -1,14 +1,28 @@
 import {Flex, SimpleGrid } from '@chakra-ui/react'
-
-import Lodges from './Lodges'
-import AgentProfilePic from '../assets/agentavatar.png'
-import LodgeThumbnail from '../assets/LodgeImage.png'
 import { useState } from 'react'
+
+import AgentProfilePic from '../assets/agentavatar.png'
+import FilterOptionContainer from './FilterOptionContainer'
+import LodgeThumbnail from '../assets/LodgeImage.png'
+import Lodges from './Lodges'
 
 function LodgesContainer() {
     const [loading, setLoading] = useState(false)
   return (
-    <Flex justify='center' align='center' height='100%'>
+    <Flex
+        justify='center'
+        flexDir='column'
+        align='center'
+        height='100%'
+        w='flex'
+        overflow='hidden'
+    >
+        {/* price filter options */}
+        <FilterOptionContainer
+            fetchUrl={'https://67f0d2f9c733555e24ab4e4a.mockapi.io/Prices'}
+            fetchingWhat='prices'
+        />
+
         <SimpleGrid
             placeContent='center'
             columns={{base: 2, sm: 2, md: 3, lg: 4}}
